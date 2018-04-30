@@ -71,7 +71,7 @@ class HomeController extends Controller
             $photo = $request->photo;
             $media = new Media();
             $media->name = $photo->getClientOriginalName();
-            $media->path = Hash::make($media->name.$request->ip().Carbon::now()).'.'.$photo->extension();
+            $media->path = str_replace("/", "-", Hash::make($media->name.$request->ip().Carbon::now()).'.'.$photo->extension());
             $media->ip = $request->ip();
             $media->media_type_id = MediaType::where('name', 'profile photo')->first()->id;
             $media->save();

@@ -16,22 +16,21 @@
                 <div class="col-md-6">
                     <div class="trip-card">
                         <div class="image">
-                            <img src="{{ $trip->media->getMedia() }}" alt="" style="width:100%">
+                            <a href="{{ route('trip.show', ['url' => $trip->url]) }}"><img src="{{ $trip->media->getMedia() }}" alt=""></a>
                         </div>
-                    </div>
-                    <div>
-                        <div class="float-left">
-                            {{ $trip->name }}
+                        <div>
+                            <div class="float-left">
+                                <a href="{{ route('trip.show', ['url' => $trip->url]) }}">{{ $trip->name }}</a>
+                            </div>
+                            <div class="float-right">
+                                <span>
+                                    <i class="fas fa-thumbs-up"></i> {{ count($trip->likes) }}
+                                </span>
+                                <span>
+                                    <i class="fas fa-comment-alt"></i> {{ count($trip->comments) }}
+                                </span>
+                            </div>
                         </div>
-                        <div class="float-right">
-                            <span>
-                                <i class="fas fa-thumbs-up"></i> {{ count($trip->likes) }}
-                            </span>
-                            <span>
-                                <i class="fas fa-comment-alt"></i> {{ count($trip->comments) }}
-                            </span>
-                        </div>
-
                     </div>
                 </div>
                 @endforeach

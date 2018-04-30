@@ -57,8 +57,8 @@
                     <div class="dropdown">
                         <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->username }}</button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{{ route('panel') }}">Your Trips</a>
-                            <a class="dropdown-item" href="{{ route('panel') }}">Edit Account</a>
+                            <a class="dropdown-item" href="{{ route('panel.trips') }}">Your Trips</a>
+                            <a class="dropdown-item" href="{{ route('panel.editAccount') }}">Edit Account</a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
@@ -162,17 +162,5 @@
         crossorigin="anonymous"></script>
     <script src="/js/bootstrap.min.js"
         crossorigin="anonymous"></script>
-    <script>
-        var mobile_nav_toggle = document.getElementsByClassName('mobile-nav-toggle')[0];
-        var mobile_nav = document.getElementsByClassName('mobile-nav')[0];
-
-        mobile_nav_toggle.onclick = function () {
-            if (mobile_nav.classList.contains('hide')) {
-                mobile_nav.classList.remove('hide');
-            } else {
-                mobile_nav.classList.add('hide');
-            }
-        }
-    </script>
 </body>
 </html>

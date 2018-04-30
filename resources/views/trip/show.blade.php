@@ -12,7 +12,7 @@
             </div>
             <div class="traveller-info">
                 <div style="margin-bottom:5px;">
-                    <a href="{{ route('user.show', ['username' => $trip->user->username]) }}">@traveller</a>
+                <a href="{{ route('user.show', ['username' => $trip->user->username]) }}">&commat;{{ $trip->user->username }}</a>
                 </div>
                 <div>
                     <button class="follow-traveller-btn">follow</button>
@@ -51,11 +51,11 @@
                 </div>
                 <div class="col-md-6 mini-gallery">
                     <h3>Gallery
-                        <a href="gallery.html">show all</a>
+                        <a href="#tabs">show all</a>
                     </h3>
                     <div class="mg-thumbnail">
                         <div class="thumbnail-content">
-                            <img src="/images/istanbul.jpeg" alt="">
+                            <img src="http://images.parkrun.com/website/wallpapers/parkrun_Owl_916.png" class="portrait" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail">
@@ -142,7 +142,7 @@
 
             <!-- Tab panes -->
             <div class="tab-content">
-                <div class="tab-pane active show" id="overview" role="tabpanel">
+                <div class="tab-pane fade active show" id="overview" role="tabpanel">
                     <div class="row">
                         <div class="col-md-6">
                             {{ $trip->about }}
@@ -163,9 +163,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane" id="day-by-day" role="tabpanel">day by day</div>
-                <div class="tab-pane" id="gallery" role="tabpanel">gallery</div>
-                <div class="tab-pane" id="comments" role="tabpanel">comments</div>
+                <div class="tab-pane fade" id="day-by-day" role="tabpanel">day by day</div>
+                <div class="tab-pane fade" id="gallery" role="tabpanel">gallery</div>
+                <div class="tab-pane fade" id="comments" role="tabpanel">comments</div>
             </div>
         </div>
     </div>
