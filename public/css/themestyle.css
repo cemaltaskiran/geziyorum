@@ -628,3 +628,7 @@ header .btn-link:focus{
     height: 180px;
     margin-bottom: 10px;
 }
+
+.account-image{
+    margin-bottom: 10px;
+}

@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->date('birthdate');
-            $table->unsignedInteger('media_id')->default(1);
+            $table->string('photo_path')->nullable();
             $table->string('name_surname')->nullable();
             $table->string('location')->nullable();
             $table->string('bio')->nullable();

@@ -65,19 +65,6 @@ class HomeController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
-
-        $media = $user->media;
-        if($request->photo){
-            $photo = $request->photo;
-            $media = new Media();
-            $media->name = $photo->getClientOriginalName();
-            $media->path = str_replace("/", "-", Hash::make($media->name.$request->ip().Carbon::now()).'.'.$photo->extension());
-            $media->ip = $request->ip();
-            $media->media_type_id = MediaType::where('name', 'profile photo')->first()->id;
-            $media->save();
-            $photo->storeAs('public/'.$media->mediaType->path, $media->path);
-        }
-        
         
         $user->username = $request->username;
         $user->email = $request->email;
@@ -85,7 +72,17 @@ class HomeController extends Controller
         $user->name_surname = $request->name_surname;
         $user->bio = $request->bio;
         $user->location = $request->location;
-        $user->media_id = $media->id;
+
+        if($request->photo){
+            $photo = $request->photo;
+            $photo->getClientOriginalName();
+            $photoPath = Hash::make($photo->getClientOriginalName().$request->ip().Carbon::now());
+            $photoPath = str_replace("/", "-", $photoPath);
+            $photoPath = $photoPath.'.'.$photo->extension();
+            $photo->storeAs('public/pp', $photoPath);
+        }
+
+        $user->photo_path = $photoPath;
         $user->update();
 
         
