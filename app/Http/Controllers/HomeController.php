@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Auth;
 use App\User;
 use App\Media;
@@ -79,13 +80,15 @@ class HomeController extends Controller
             $photoPath = Hash::make($photo->getClientOriginalName().$request->ip().Carbon::now());
             $photoPath = str_replace("/", "-", $photoPath);
             $photoPath = $photoPath.'.'.$photo->extension();
-            $photo->storeAs('public/pp', $photoPath);
+            $photo->storeAs('public/pp/', $photoPath);
         }
 
+        if($user->photo_path != NULL){
+            Storage::delete('public/pp/'.$user->photo_path);
+        }
         $user->photo_path = $photoPath;
         $user->update();
 
-        
         return redirect()->back()->with('update', true);
     }
 

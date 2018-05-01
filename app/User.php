@@ -102,6 +102,9 @@ class User extends Authenticatable
     }
 
     public function getPhoto(){
-        return $this->media->getMedia();
+        if($this->photo_path !== NULL){
+            return '/storage/pp/'.$this->photo_path;
+        }
+        return '/storage/pp/non.png';
     }
 }

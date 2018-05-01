@@ -37,7 +37,7 @@
             @endif
             <form method="POST" action="{{ route('panel.updateAccount') }}"  enctype="multipart/form-data">
                 <div class="form-group">
-                    <img class="account-image" src="{{ $user->media->getMedia() }}" height="80px" alt="">
+                    <img class="account-image" src="{{ $user->getPhoto() }}" height="80px" alt="">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input{{ $errors->has('photo') ? ' is-invalid' : '' }}" id="photo" name="photo">
                         <label class="custom-file-label" for="photo">change photo</label>
