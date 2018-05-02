@@ -11,6 +11,7 @@ use Auth;
 use App\User;
 use App\Media;
 use App\MediaType;
+use App\Trip;
 use Validator;
 use Carbon\Carbon;
 
@@ -95,5 +96,11 @@ class HomeController extends Controller
     public function trips(){
         $user = Auth::user();
         return view('panel.trips')->with('user', $user);
+    }
+
+    public function showTrip($id){
+        $trip = Trip::find($id);
+        $user = Auth::user();
+        return view('panel.editTrip')->with('user', $user);
     }
 }

@@ -25,6 +25,7 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], function() {
     Route::get('edit-account', 'HomeController@showAccount')->name('panel.editAccount');
     Route::post('edit-account', 'HomeController@editAccount')->name('panel.updateAccount');
     Route::get('trips', 'HomeController@trips')->name('panel.trips');
+    Route::get('edit-trip/{id}', 'HomeController@showTrip')->name('panel.showTrip');
     
     Route::prefix('create')->group(function () {
         Route::get('category', 'CategoryController@create')->name('admin.category.create');

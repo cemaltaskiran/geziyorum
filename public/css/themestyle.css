@@ -632,3 +632,17 @@ header .btn-link:focus{
 .account-image{
     margin-bottom: 10px;
 }
+
+.edit-trip-icon{
+    background: rgba(0, 0, 0, .5);
+    color: #e6e6e6;
+    padding: 1px 5px;
+    position: absolute;
+    top: 0;
+    right: 15px;
+}
+
+.edit-trip-icon:hover{
+    background: rgba(0, 0, 0, .75);
+    color: #ffffff;
+}
