@@ -14,16 +14,15 @@ class CreateMediasTable extends Migration
     public function up()
     {
         Schema::create('medias', function (Blueprint $table) {
-            $table->increments('id');
+            $table->unsignedInteger('id')->nullable();
             $table->string('path')->unique();
             $table->string('name');
             $table->unsignedInteger('location_id')->nullable();
             $table->unsignedInteger('media_type_id')->nullable();
-            $table->foreign('location_id')->references('id')->on('locations');
-            $table->foreign('media_type_id')->references('id')->on('media_types');
             $table->ipAddress('ip');
             $table->softDeletes();
             $table->timestamps();
+            //$table->foreign('location_id')->references('id')->on('locations');
         });
     }
 

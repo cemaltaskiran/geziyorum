@@ -41,11 +41,12 @@ class TripTableSeeder extends Seeder
         $trip = new Trip();
         $trip->name = 'Demo Trip';
         $trip->user_id = 1;
+        $trip->id = 1;
         $trip->about = 'Lorem ipsum dolor sit amet, sea id solum vidisse appetere, vis aeque neglegentur et. Mei habeo vitae fabulas ea, cu paulo praesent cotidieque eos. Clita commodo ullamcorper nec te, eum eros admodum te. Cu aliquam interesset eos, eu diceret deleniti vel. Ei duo homero elaboraret, at eum dicam accusata suavitate. Ut nostrud saperet appetere pro, probo argumentum contentiones et his. His simul omnes persius et, inani facilisi ut usu. Ut eam delicata scripserit, erant debitis luptatum duo at. Ei ullum accusata sadipscing quo.';
         $trip->total_distance = 121;
         $trip->average_speed = 25;
         $trip->total_time = 11;
-        $trip->media_id = 2;
+        $trip->cover_image_path = '/storage/p/img.jpg';
         $trip->save();
 
         $trip->url = $this->seoURL($trip->name).'-'.$trip->id;

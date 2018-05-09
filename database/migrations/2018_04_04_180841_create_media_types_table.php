@@ -11,6 +11,7 @@ class CreateMediaTypesTable extends Migration
      *
      * @return void
      */
+    /*
     public function up()
     {
         Schema::create('media_types', function (Blueprint $table) {
@@ -20,6 +21,7 @@ class CreateMediaTypesTable extends Migration
             $table->timestamps();
         });
     }
+    */
 
     /**
      * Reverse the migrations.

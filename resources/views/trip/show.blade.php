@@ -3,7 +3,7 @@
     {{ $trip->name }}
 @endsection
 @section('main')
-    <div class="trip-bg" style="background: url(' {{ $trip->media->getMedia() }}')">
+    <div class="trip-bg" style="background: url(' {{ $trip->cover_image_path }}')">
         <div class="container">
             <div class="traveller-avatar">
                 <a href="{{ route('user.show', ['username' => $trip->user->username]) }}">

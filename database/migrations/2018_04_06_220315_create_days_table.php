@@ -14,12 +14,13 @@ class CreateDaysTable extends Migration
     public function up()
     {
         Schema::create('days', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('day_number');
-            $table->string('content');
+            $table->unsignedInteger('id');
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('trip_id');
-            $table->foreign('trip_id')->references('id')->on('trips');
+            $table->text('content');
             $table->timestamps();
+            //$table->foreign('user_id')->references('id')->on('users');
+            //$table->foreign('trip_id')->references('id')->on('trips');
         });
     }
 

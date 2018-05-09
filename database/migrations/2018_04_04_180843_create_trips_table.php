@@ -14,19 +14,19 @@ class CreateTripsTable extends Migration
     public function up()
     {
         Schema::create('trips', function (Blueprint $table) {
-            $table->increments('id');
+            $table->unsignedInteger('id');
             $table->string('name');
             $table->string('url')->unique()->nullable();
             $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->longText('about')->nullable();
+            $table->text('about')->nullable();
             $table->unsignedInteger('total_distance')->nullable();
             $table->unsignedInteger('average_speed')->nullable();
             $table->unsignedInteger('total_time')->nullable();
-            $table->unsignedInteger('media_id')->nullable();
-            $table->foreign('media_id')->references('id')->on('medias');
+            $table->string('cover_image_path')->nullable();
             $table->softDeletes();
             $table->timestamps();
+            $table->primary(['id', 'user_id']);
+            $table->foreign('user_id')->references('id')->on('users');
         });
 
         Schema::table('locations', function($table) {

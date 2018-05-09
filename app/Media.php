@@ -13,11 +13,6 @@ class Media extends Model
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
-    public function mediaType()
-    {
-        return $this->belongsTo('App\MediaType');
-    }
-
     public function location()
     {
         return $this->belongsTo('App\Location');

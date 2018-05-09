@@ -60,9 +60,4 @@ class Trip extends Model
     {
         return $this->morphMany('App\Ban', 'banable');
     }
-
-    public function media()
-    {
-        return $this->belongsTo('App\Media', 'media_id');
-    }
 }
