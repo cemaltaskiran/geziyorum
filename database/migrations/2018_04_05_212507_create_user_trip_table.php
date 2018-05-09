@@ -17,11 +17,12 @@ class CreateUserTripTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('trip_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('trip_id')->references('id')->on('trips');
             $table->boolean('is_editor');
             $table->boolean('accepted');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('trip_id')->references('id')->on('trips');
         });
     }
 

@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         //$this->call(MediaTypesTableSeeder::class);
-        $this->call(CategoryTableSeeder::class);
+        $this->call(TagTableSeeder::class);
         $this->call(MediaTableSeeder::class);
         $this->call(TripTableSeeder::class);
     }

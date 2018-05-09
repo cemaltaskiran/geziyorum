@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTripCategoryTable extends Migration
+class CreateTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateTripCategoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('trip_category', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('trip_id');
-            $table->unsignedInteger('category_id');            
+            $table->string('name')->unique();
+            $table->string('description')->nullable();
             $table->timestamps();
-            $table->foreign('trip_id')->references('id')->on('trips');
-            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 
@@ -30,6 +28,6 @@ class CreateTripCategoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trip_category');
+        Schema::dropIfExists('tags');
     }
 }

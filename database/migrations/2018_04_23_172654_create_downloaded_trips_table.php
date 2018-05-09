@@ -19,9 +19,7 @@ class CreateDownloadedTripsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->date('expire_date');
             $table->timestamps();
-        });
 
-        Schema::table('downloaded_trips', function($table) {
             $table->foreign('trip_id')->references('id')->on('trips');
             $table->foreign('user_id')->references('id')->on('users');
         });

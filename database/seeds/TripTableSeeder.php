@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Trip;
+use Illuminate\Support\Facades\Storage;
 
 class TripTableSeeder extends Seeder
 {
@@ -46,7 +47,8 @@ class TripTableSeeder extends Seeder
         $trip->total_distance = 121;
         $trip->average_speed = 25;
         $trip->total_time = 11;
-        $trip->cover_image_path = '/storage/p/img.jpg';
+        Storage::makeDirectory('public/1/1');
+        $trip->cover_image_path = '/storage/1/1/img.jpg';
         $trip->save();
 
         $trip->url = $this->seoURL($trip->name).'-'.$trip->id;

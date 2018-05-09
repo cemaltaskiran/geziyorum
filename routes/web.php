@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::get('/panel', 'HomeController@index')->name('panel');
 
+Route::get('/{username}', 'UserController@show')->name('user.show');
+
 Route::group(['prefix' => 'panel', 'middleware' => 'auth'], function() {
     // Main pages
     Route::get('', 'HomeController@index')->name('panel');
@@ -80,6 +82,6 @@ Route::group(['prefix' => 'trip'], function() {
     Route::get('{url}', 'TripController@show')->name('trip.show');
 });
 
-Route::group(['prefix' => 'user'], function() {
-    Route::get('{username}', 'UserController@show')->name('user.show');
-});
+
+
+

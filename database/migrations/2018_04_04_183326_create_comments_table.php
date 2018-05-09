@@ -18,11 +18,12 @@ class CreateCommentsTable extends Migration
             $table->string('comment');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('trip_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('trip_id')->references('id')->on('trips');
             $table->ipAddress('ip');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('trip_id')->references('id')->on('trips');
         });
     }
 

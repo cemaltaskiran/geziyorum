@@ -119,7 +119,17 @@
                 <div class="col-md-12 map-view">
                     <h3>Map View of Trip</h3>
                     <div id="map"></div>
-                    </script>
+                    <script>
+                        var map;
+                        function initMap() {
+                          map = new google.maps.Map(document.getElementById('map'), {
+                            center: {lat: -34.397, lng: 150.644},
+                            zoom: 8
+                          });
+                        }
+                      </script>
+                      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzPRdqJQTDTft2k1Z7oXsvKX8glW4qkI4&callback=initMap"
+                      async defer></script>
                 </div>
             </div>
         </main>
