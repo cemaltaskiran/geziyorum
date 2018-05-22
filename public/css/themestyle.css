@@ -646,3 +646,20 @@ header .btn-link:focus{
     background: rgba(0, 0, 0, .75);
     color: #ffffff;
 }
+
+main .dropleft{
+    float: right;
+    margin-top: -80px;
+}
+
+main .dropleft .dropdown-toggle::before{
+    content: none;
+}
+
+.complaint-description{
+    font-size: 12px;
+    line-height: 12px;
+    padding-left: 20px;
+    color: #909090;
+    font-style: italic;
+}

@@ -46,11 +46,6 @@ class Trip extends Model
         return $this->hasMany('App\Comment');
     }
 
-    public function complaints()
-    {
-        return $this->morphToMany('App\Complaint', 'complaintable');
-    }
-
     public function likes()
     {
         return $this->hasMany('App\Like');
@@ -60,4 +55,5 @@ class Trip extends Model
     {
         return $this->morphMany('App\Ban', 'banable');
     }
+
 }

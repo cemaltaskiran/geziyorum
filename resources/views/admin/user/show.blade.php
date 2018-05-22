@@ -50,7 +50,6 @@
         <div class="col-md-12">
             <form method="POST" action="{{ route('admin.user.update', ['username' => $user->username]) }}">
                 @csrf
-    
                 <div class="form-group row {{ $errors->has('username') ? ' has-error' : '' }}">
                     <label for="username" class="col-md-4 col-form-label text-md-right">{{ __('username') }}</label>
     

@@ -28,49 +28,70 @@ Route::group(['prefix' => 'panel', 'middleware' => 'auth'], function() {
     Route::post('edit-account', 'HomeController@editAccount')->name('panel.updateAccount');
     Route::get('trips', 'HomeController@trips')->name('panel.trips');
     Route::get('edit-trip/{id}', 'HomeController@showTrip')->name('panel.showTrip');
-    
-    Route::prefix('create')->group(function () {
-        Route::get('category', 'CategoryController@create')->name('admin.category.create');
-        Route::get('user', 'UserController@create')->name('admin.user.create');
-        Route::get('media-type', 'MediaTypeController@create')->name('admin.mediaType.create');
-    });
+
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     // Main pages
-    Route::get('', 'HomeController@indexAdmin')->name('admin.index');
+    Route::get('dashboard', 'HomeController@indexAdmin')->name('admin.index');
     Route::get('categories', 'CategoryController@indexAdmin')->name('admin.category.index');
     Route::get('users', 'UserController@indexAdmin')->name('admin.user.index');
     Route::get('media-types', 'MediaTypeController@indexAdmin')->name('admin.mediaType.index');
+    Route::get('complaints', 'ComplaintController@index')->name('admin.complaint.index');
+    Route::get('reports', 'ReportController@index')->name('admin.report.index');
+    Route::post('resolve/{id}', 'ReportController@resolve')->name('admin.report.resolve');
+    Route::post('unresolve/{id}', 'ReportController@unresolve')->name('admin.report.unresolve');
 
     Route::prefix('create')->group(function () {
         Route::get('category', 'CategoryController@create')->name('admin.category.create');
         Route::get('user', 'UserController@create')->name('admin.user.create');
         Route::get('media-type', 'MediaTypeController@create')->name('admin.mediaType.create');
+        Route::get('complaint', 'ComplaintController@create')->name('admin.complaint.create');
     });
 
     Route::prefix('store')->group(function () {
         Route::post('category', 'CategoryController@store')->name('admin.category.store');
         Route::post('user', 'UserController@store')->name('admin.user.store');
         Route::post('media-type', 'MediaTypeController@store')->name('admin.mediaType.store');
+        Route::post('complaint', 'ComplaintController@store')->name('admin.complaint.store');
     });
 
     Route::prefix('show')->group(function () {
         Route::get('category/{name}', 'CategoryController@showAdmin')->name('admin.category.show');
         Route::get('user/{username}', 'UserController@showAdmin')->name('admin.user.show');
         Route::get('media-type/{name}', 'MediaTypeController@showAdmin')->name('admin.mediaType.show');
+        Route::get('complaint/{id}', 'ComplaintController@showAdmin')->name('admin.complaint.show');
+        Route::get('report/{id}', 'ReportController@show')->name('admin.report.show');
     });
 
     Route::prefix('update')->group(function () {
         Route::post('category/{name}', 'CategoryController@update')->name('admin.category.update');
         Route::post('user/{username}', 'UserController@update')->name('admin.user.update');
         Route::post('media-type/{name}', 'MediaTypeController@update')->name('admin.mediaType.update');
+        Route::post('complaint/{id}', 'ComplaintController@update')->name('admin.complaint.update');
+    });
+
+    Route::prefix('freeze')->group(function () {
+        Route::post('trip/{id}', 'TripController@freeze')->name('admin.trip.freeze');
+    });
+
+    Route::prefix('unfreeze')->group(function () {
+        Route::post('trip/{id}', 'TripController@unfreeze')->name('admin.trip.unfreeze');
+    });
+
+    Route::prefix('hide')->group(function () {
+        Route::post('trip/{id}', 'TripController@hide')->name('admin.trip.hide');
+    });
+
+    Route::prefix('unhide')->group(function () {
+        Route::post('trip/{id}', 'TripController@unhide')->name('admin.trip.unhide');
     });
 
     Route::prefix('delete')->group(function () {
         Route::get('category/{name}', 'CategoryController@destroy')->name('admin.category.destroy');
         Route::get('user/{name}', 'UserController@destroy')->name('admin.user.destroy');
         Route::get('media-type/{name}', 'MediaTypeController@destroy')->name('admin.mediaType.destroy');
+        Route::get('complaint/{id}', 'ComplaintController@destroy')->name('admin.complaint.destroy');
     });
 
     Route::prefix('restore')->group(function () {
@@ -80,6 +101,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
 Route::group(['prefix' => 'trip'], function() {
     Route::get('{url}', 'TripController@show')->name('trip.show');
+    Route::post('complaint/{id}', 'TripController@complaint')->name('trip.complaint');
 });
 
 

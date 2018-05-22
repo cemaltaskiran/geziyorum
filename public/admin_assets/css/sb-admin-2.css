@@ -437,3 +437,58 @@ table.dataTable thead .sorting:after {
     border:1px solid #ccc;
     padding:10px 15px;
 }
+
+.report-th{
+  font-weight: bold;
+  color: #707070;
+}
+
+.badge{
+  display: inline-block;
+  padding: .5em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+}
+
+.badge:hover{
+  opacity: 0.85;
+}
+
+.badge-primary {
+  color: #fff;
+  background-color: #007bff;
+}
+
+.badge-danger {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.badge-success {
+  color: #fff;
+  background-color: #28a745;
+}
+
+.badge-dark {
+  color: #fff;
+  background-color: #343a40;
+}
+
+.badge-info {
+  color: #fff;
+  background-color: #17a2b8;
+}
+
+.report-item{
+  line-height: 28px;
+  border-bottom: 1px solid rgba(123, 19, 66, .05);
+}
+
+.report-item:hover{
+  background: rgba(123, 19, 66, .05);
+}

@@ -19,7 +19,7 @@ class CreateBansTable extends Migration
             $table->foreign('complaint_id')->references('id')->on('complaints');
             $table->string('banable_type');
             $table->unsignedInteger('banable_id');
-            $table->dateTime('timeout_dt');
+            $table->timestamp('timeout_dt');
             $table->timestamps();
         });
     }

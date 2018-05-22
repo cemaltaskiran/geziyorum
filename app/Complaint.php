@@ -3,32 +3,31 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Complaint extends Model
 {
     public function comments()
     {
-        return $this->morphedByMany('App\Comment', 'complaintable');
+        return DB::table('reports')->where('type', 'comment')->get();
     }
 
     public function medias()
     {
-        return $this->morphedByMany('App\Media', 'complaintable');
+        return DB::table('reports')->where('type', 'media')->get();
     }
 
     public function trips()
     {
-        return $this->morphedByMany('App\Trip', 'complaintable');
+        return DB::table('reports')->where('type', 'trip')->get();
     }
 
     public function users()
     {
-        return $this->morphedByMany('App\User', 'complaintable');
+        return DB::table('reports')->where('type', 'user')->get();
     }
 
-    public function user()
-    {
-        $userId = $this->user_id;
-        return User::find($userId);
+    public function reports(){
+        return $this->hasMany('App\Report');
     }
 }

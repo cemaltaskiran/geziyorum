@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use DB;
 
 class User extends Authenticatable
 {
@@ -56,11 +57,6 @@ class User extends Authenticatable
         return $this->hasMany('App\Like');
     }
 
-    public function complaints()
-    {
-        return $this->morphToMany('App\Complaint', 'complaintable');
-    }
-
     public function bans()
     {
         return $this->morphMany('App\Ban', 'banable');
@@ -107,4 +103,18 @@ class User extends Authenticatable
         }
         return '/storage/pp/non.png';
     }
+
+    public function isUserComplained($id, $type){
+        $query = DB::table('reports')->where([
+            ['complaintable_id', '=', $id],
+            ['complaintable_type', '=', $type],
+            ['user_id', '=', $this->id],
+        ])->get();
+
+        if(count($query) > 0){
+            return true;
+        }
+        return false;
+    }
+
 }

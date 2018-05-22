@@ -22,6 +22,53 @@
     </div>
     <div class="container">
         <main>
+            @auth
+                <div class="btn-group dropleft">
+                    <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#share">Share</a>
+                        @if ($trip->user_id !== Auth::user()->id)
+                            <a class="dropdown-item" href="#download">Download to Phone</a>
+                            @if (!Auth::user()->isUserComplained($trip->id, 'trip'))
+                                <a class="dropdown-item" href="#report" onclick="$('#reportTripModal').modal('show')">Report</a>
+                            @else
+                                <a class="dropdown-item disabled bg-warning" href="#report">Reported!</a>
+                            @endif
+                        @endif
+                    </div>
+                </div>
+                @if (!Auth::user()->isUserComplained($trip->id, 'trip'))
+                    <div class="modal fade" id="reportTripModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Report This Trip</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <form method="POST" id="complaintForm" action="{{ route('trip.complaint', ['id' => $trip->id]) }}">
+                                <div class="modal-body">
+                                    @csrf
+                                    @foreach ($complaints as $complaint)
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="complaint" id="c_{{ $complaint->id }}" value="{{ $complaint->id }}">
+                                            <label class="form-check-label" for="c_{{ $complaint->id }}">{{ $complaint->name }}</label>
+                                        </div>
+                                        <div class="complaint-description">{{ $complaint->description }}</div>
+                                    @endforeach
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="event.preventDefault();document.getElementById('complaintForm').submit();">Send complaint</button>
+                                </div>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                @endif
+            @endauth
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="trip-title">{{ $trip->name }}</h1>
@@ -43,6 +90,38 @@
                         <i class="fas fa-money-bill-alt"></i> $500
                     </span>
                 </div>
+                @if (session('report'))
+                    <div class="col-md-8 offset-md-2">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            Your report has been sent to website content manager.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                @endif
+
+                @if ($trip->freeze)
+                    <div class="col-md-8 offset-md-2">
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            This trip is <strong>freezed!</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                @endif
+
+                @if ($trip->deleted_at)
+                    <div class="col-md-8 offset-md-2">
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            This trip is <strong>deleted by admin!</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                @endif
             </div>
             <div class="row">
                 <div class="col-md-6 trip-summary">
@@ -55,62 +134,62 @@
                     </h3>
                     <div class="mg-thumbnail">
                         <div class="thumbnail-content">
-                            <img src="http://images.parkrun.com/website/wallpapers/parkrun_Owl_916.png" class="portrait" alt="">
+                            <img src="/images/parkrun_Owl_916.png" class="portrait" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail">
                         <div class="thumbnail-content">
-                            <img src="http://images.parkrun.com/website/wallpapers/parkrun_Owl_916.png" class="portrait" alt="">
+                            <img src="/images//parkrun_Owl_916.png" class="portrait" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail">
                         <div class="thumbnail-content">
-                            <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="">
+                            <img src="/images//img_avatar2.png" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail">
                         <div class="thumbnail-content">
-                            <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="">
+                            <img src="/images//img_avatar2.png" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail">
                         <div class="thumbnail-content">
-                            <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="">
+                            <img src="/images//img_avatar2.png" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail">
                         <div class="thumbnail-content">
-                            <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="">
+                            <img src="/images//img_avatar2.png" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail">
                         <div class="thumbnail-content">
-                            <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="">
+                            <img src="/images//img_avatar2.png" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail">
                         <div class="thumbnail-content">
-                            <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="">
+                            <img src="/images//img_avatar2.png" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail">
                         <div class="thumbnail-content">
-                            <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="">
+                            <img src="/images//img_avatar2.png" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail">
                         <div class="thumbnail-content">
-                            <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="">
+                            <img src="/images//img_avatar2.png" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail collapse">
                         <div class="thumbnail-content">
-                            <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="">
+                            <img src="/images//img_avatar2.png" alt="">
                         </div>
                     </div>
                     <div class="mg-thumbnail collapse">
                         <div class="thumbnail-content">
-                            <img src="https://www.w3schools.com/howto/img_avatar2.png" alt="">
+                            <img src="/images//img_avatar2.png" alt="">
                         </div>
                     </div>
                 </div>
