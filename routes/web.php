@@ -13,15 +13,17 @@
 
 Route::get('/', function () {
     return view('homepage');
-})->name('homepage');
+})->name('homepage')->middleware('ban');
 
 Auth::routes();
 
-Route::get('/panel', 'HomeController@index')->name('panel');
+Route::get('/panel', 'HomeController@index')->name('panel')->middleware('ban');
 
-Route::get('/{username}', 'UserController@show')->name('user.show');
+Route::get('/punished', 'HomeController@punished')->name('punished');
 
-Route::group(['prefix' => 'panel', 'middleware' => 'auth'], function() {
+Route::get('/{username}', 'UserController@show')->name('user.show')->middleware('ban');
+
+Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'ban']], function() {
     // Main pages
     Route::get('', 'HomeController@index')->name('panel');
     Route::get('edit-account', 'HomeController@showAccount')->name('panel.editAccount');
@@ -54,6 +56,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
         Route::post('user', 'UserController@store')->name('admin.user.store');
         Route::post('media-type', 'MediaTypeController@store')->name('admin.mediaType.store');
         Route::post('complaint', 'ComplaintController@store')->name('admin.complaint.store');
+        Route::post('ban', 'BanController@store')->name('admin.ban.store');
     });
 
     Route::prefix('show')->group(function () {
@@ -99,7 +102,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     });
 });
 
-Route::group(['prefix' => 'trip'], function() {
+Route::group(['prefix' => 'trip', 'middleware' => 'ban'], function() {
     Route::get('{url}', 'TripController@show')->name('trip.show');
     Route::post('complaint/{id}', 'TripController@complaint')->name('trip.complaint');
 });

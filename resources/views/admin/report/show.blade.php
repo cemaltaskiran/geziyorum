@@ -1,18 +1,18 @@
 @extends('layouts.admin_layout') 
 @section('title', 'Report: '.$report->complaintable_type.'#'.$report->complaintable_id)
- @section('content')
+@section('content')
     <div class="row">
         <div class="col-md-12">
             <a href="{{ route('admin.report.index') }}">< Back</a>
         </div>
     </div>
     <hr> 
-    @if (session('update'))
+    @if (count($errors) > 0)
         <div class="row">
             <div class="col-md-12">
-                <div class="alert alert-info alert-dismissable">
+                <div class="alert alert-danger alert-dismissable">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <strong>{{ session('update') }}</strong> is updated.
+                    An error occurred during the last action you attempted.
                 </div>
             </div>
         </div>
@@ -221,20 +221,60 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             </div>
-                            <form method="POST" action="{{ route('admin.report.unresolve', ['id' => $report->id]) }}">
+                            <form method="POST" action="{{ route('admin.ban.store') }}" id="punishForm">
                                 @csrf
+                                <input type="hidden" name="complaint_id" value="{{$report->complaint->id}}">
+                                <input type="hidden" name="banable_type" value="user">
+                                <input type="hidden" name="banable_id" value="{{$reported->user_id}}">
+                                <input type="hidden" name="report_id" value="{{$report->id}}">
                                 <div class="modal-body">
                                     <div class="form-group row ">
-                                        <label for="name" class="col-md-4 col-form-label text-md-right">name</label>
-                                        <div class="col-md-8">
-                                            <input id="name" type="text" class="form-control" name="name" value="" required=""> 
+                                        <label class="col-md-3 col-form-label text-md-right">Username</label>
+                                        <div class="col-md-9">
+                                            {{$reported->user->username}}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row ">
+                                        <label class="col-md-3 col-form-label text-md-right">Reason</label>
+                                        <div class="col-md-9">
+                                            {{$report->complaint->name}}
                                         </div>
                                     </div>
                         
                                     <div class="form-group row">
-                                        <label for="description" class="col-md-4 col-form-label text-md-right">description</label>
-                                        <div class="col-md-8">
-                                            <input id="description" type="text" class="form-control" name="description" value=""> 
+                                        <label for="message" class="col-md-3 col-form-label text-md-right">Message</label>
+                                        <div class="col-md-9">
+                                            <textarea id="message" name="message" class="form-control" rows="2" required>You have been pusnished because of your "{{$reported->name}}" named trip.</textarea>
+                                            @if ($errors->has('message'))
+                                                <span class="invalid-feedback">
+                                                    <strong>{{ $errors->first('message') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row" id="tout">
+                                        <label for="timeout" class="col-md-3 col-form-label text-md-right">Timeout</label>
+                                        <div class="col-md-9">
+                                            <div class="input-group date form_datetime col-md-12" data-date="" data-link-field="timeout">
+                                                <input class="form-control" size="16" type="text" value="" id="toutText">
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                            </div>
+                                            @if ($errors->has('timeout'))
+                                                <span class="invalid-feedback">
+                                                    <strong>{{ $errors->first('timeout') }}</strong>
+                                                </span>
+                                            @endif
+                                            <input type="hidden" id="timeout" name="timeout" value=""/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="perma" class="col-md-3 col-form-label text-md-right">Permanent ban</label>
+                                        <div class="col-md-9">
+                                            <input type="checkbox" name="perma" id="perma">
                                         </div>
                                     </div>
                                 </div>
@@ -256,7 +296,7 @@
             @if (count($report->history) > 0)
                 @php $key=1 @endphp
                 @foreach ($report->history as $item)
-                    <div>{{$key++}}. {{$item->action}} on {{$item->created_at}}</div>
+                    <div><span class="log-time">{{$item->created_at}}</span>: {{$item->action}}</div>
                 @endforeach
             @else
                 <div>No action taken so far.</div>
@@ -264,4 +304,40 @@
         </div>
     </div>
     
+@endsection
+
+@section('script')
+    <script type="text/javascript">
+        function isEmpty( el ){
+            return !$.trim(el.html())
+        }
+        $('.form_datetime').datetimepicker({
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            format: 'yyyy-mm-dd hh:ii:ss'
+        });
+        var oldTime;
+        $("#perma").change(function(){
+            if($(this).is(':checked')) {
+                oldTime = $("#timeout").val();
+                $("#timeout").val("2099-12-31 00:00:00");
+                $("#tout").fadeOut();
+
+            } else {
+                $("#timeout").val(oldTime);
+                $("#tout").fadeIn();
+            }
+        });
+        $("#punishForm").submit(function() {
+            if (!$('#timeout').val()) {
+                alert("Please set a timeout date!");
+                $('#toutText').focus();
+                return false;
+            }
+        });
+    </script>
 @endsection

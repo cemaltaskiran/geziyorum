@@ -27,13 +27,13 @@
             </div>
             <div class="row">
                 <div class="col featured-trip">
-                    <a href="trip.html">
-                        <div class="picture" style="background-image: url('images/moscow.jpeg')">
+                    <a href="{{route('trip.show', ['url' => 'demo-trip-1'])}}">
+                        <div class="picture" style="background-image: url('images/moscow.jpg')">
                         </div>
                     </a>
                     <div class="title">
                         <h3>
-                            <a href="trip.html">Title brother with me</a>
+                            <a href="{{route('trip.show', ['url' => 'demo-trip-1'])}}">Title brother with me</a>
                         </h3>
                     </div>
                     <div class="description">
@@ -53,13 +53,13 @@
                     </div>
                 </div>
                 <div class="col featured-trip">
-                    <a href="trip.html">
-                        <div class="picture" style="background-image: url('images/istanbul.jpeg')">
+                    <a href="{{route('trip.show', ['url' => 'demo-trip-1'])}}">
+                        <div class="picture" style="background-image: url('images/istanbul.jpg')">
                         </div>
                     </a>
                     <div class="title">
                         <h3>
-                            <a href="trip.html">Title brother with me</a>
+                            <a href="{{route('trip.show', ['url' => 'demo-trip-1'])}}">Title brother with me</a>
                         </h3>
                     </div>
                     <div class="description">
@@ -79,13 +79,13 @@
                     </div>
                 </div>
                 <div class="col featured-trip">
-                    <a href="trip.html">
-                        <div class="picture" style="background-image: url('images/jungle.jpeg')">
+                    <a href="{{route('trip.show', ['url' => 'demo-trip-1'])}}">
+                        <div class="picture" style="background-image: url('images/jungle.jpg')">
                         </div>
                     </a>
                     <div class="title">
                         <h3>
-                            <a href="trip.html">Title brother with me</a>
+                            <a href="{{route('trip.show', ['url' => 'demo-trip-1'])}}">Title brother with me</a>
                         </h3>
                     </div>
                     <div class="description">

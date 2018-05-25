@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ban extends Model
 {
-    public function banable()
+    public function complaint()
     {
-        return $this->morphTo();
+        return $this->belongsTo('App\Complaint');
     }
 }

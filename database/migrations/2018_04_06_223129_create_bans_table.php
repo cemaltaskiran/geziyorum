@@ -16,11 +16,13 @@ class CreateBansTable extends Migration
         Schema::create('bans', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('complaint_id');
-            $table->foreign('complaint_id')->references('id')->on('complaints');
             $table->string('banable_type');
             $table->unsignedInteger('banable_id');
-            $table->timestamp('timeout_dt');
+            $table->string('message');
+            $table->dateTime('timeout');
             $table->timestamps();
+
+            $table->foreign('complaint_id')->references('id')->on('complaints');
         });
     }
 

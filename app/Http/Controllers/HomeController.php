@@ -103,4 +103,13 @@ class HomeController extends Controller
         $user = Auth::user();
         return view('panel.editTrip')->with('user', $user);
     }
+
+    public function punished(){
+        
+        $user = Auth::user();
+        if($user->hasBan())
+            return view('punished')->with('user', $user);
+        abort(404);
+        
+    }
 }

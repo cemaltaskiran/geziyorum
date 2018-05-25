@@ -16,6 +16,7 @@
     <link href="/admin_assets/css/sb-admin-2.css" rel="stylesheet">
     <link href="/admin_assets/vendor/morrisjs/morris.css" rel="stylesheet">
     <link href="/admin_assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/admin_assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -117,6 +118,8 @@
     <script src="/admin_assets/vendor/morrisjs/morris.min.js"></script>
     <script src="/admin_assets/data/morris-data.js"></script>
     <script src="/admin_assets/js/sb-admin-2.js"></script>
+    <script src="/admin_assets/js/bootstrap-datetimepicker.min.js"></script>
+    @yield('script')
 
 </body>
 

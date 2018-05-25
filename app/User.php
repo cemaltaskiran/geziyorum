@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
+use App\Ban;
 
 class User extends Authenticatable
 {
@@ -59,7 +60,7 @@ class User extends Authenticatable
 
     public function bans()
     {
-        return $this->morphMany('App\Ban', 'banable');
+        return $this->hasMany('App\Ban', 'banable_id');
     }
 
     /**
@@ -115,6 +116,24 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+    public function getBan(){
+
+        $ban = Ban::where([
+            ['banable_id', '=', $this->id],
+            ['banable_type', '=', 'user'],
+            ['timeout', '>', date('Y-m-d H:i:s')]
+        ])->orderBy('timeout', 'desc')->first();
+            
+        return $ban;
+    }
+
+    public function hasBan(){
+        if($this->getBan() == null){
+            return false;
+        }
+        return true;
     }
 
 }

@@ -492,3 +492,7 @@ table.dataTable thead .sorting:after {
 .report-item:hover{
   background: rgba(123, 19, 66, .05);
 }
+
+.log-time{
+  color: #3d8b3d;
+}
