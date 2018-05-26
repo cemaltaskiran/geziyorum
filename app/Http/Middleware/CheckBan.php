@@ -15,9 +15,9 @@ class CheckBan
      */
     public function handle($request, Closure $next)
     {
-        if($request->user() && !$request->user()->hasBan()){
-            return $next($request);
+        if($request->user() && $request->user()->hasBan()){
+            return redirect()->route('punished');
         }
-        return redirect()->route('punished');
+        return $next($request);
     }
 }
