@@ -109,7 +109,7 @@ class HomeController extends Controller
         $user = Auth::user();
         if($user->hasBan())
             return view('punished')->with('user', $user);
-        abort(404);
+        return redirect()->route('homepage');
         
     }
 }

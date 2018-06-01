@@ -202,22 +202,35 @@ class UserController extends Controller
     public function indexAdmin(Request $request)
     {
         $show = 'all';
+        $keyword = '';
+
         if($request->show){
             $show = $request->show;
         }
+        if($request->keyword){
+            $keyword = $request->keyword;
+        }
         if($show == 'active'){
-            $users = DB::table('users')->where([
+            $users = User::where([
                 ['deleted_at', '=', NULL]
-            ])->paginate(15);
+            ]);
         }
         elseif($show == 'deleted'){
-            $users = DB::table('users')->where([
+            $users = User::where([
                 ['deleted_at', '<>', NULL]
-            ])->paginate(15);
+            ]);
         }
         else{
-            $users = DB::table('users')->paginate(15);
+            $users = DB::table('users');
         }
-        return view('admin.user.index', ['users' => $users, 'show' => $show]);
+
+        if($keyword){
+            $users = $users->where([
+                ['username', 'LIKE', '%' . $keyword . '%'],
+            ]);
+        }
+
+        $users = $users->paginate(15);
+        return view('admin.user.index', ['users' => $users, 'show' => $show, 'keyword' => $keyword]);
     }
 }

@@ -19,6 +19,14 @@
     @endif
     <div class="row report-item">
         <div class="col-md-3 report-th">
+            User
+        </div>
+        <div class="col-md-9">
+        <a href="{{ route('admin.user.show', ['username' => $reported->user->username]) }}" target="_blank">&commat;{{ $reported->user->username }}</a>
+        </div>
+    </div>
+    <div class="row report-item">
+        <div class="col-md-3 report-th">
             Complaint Name
         </div>
         <div class="col-md-9">

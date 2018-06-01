@@ -17,24 +17,33 @@ class ReportController extends Controller
      */
     public function index(Request $request)
     {
+        $resolved = 'all';
+        $type = 'all';
+
         if($request->resolved){
             $resolved = $request->resolved;
         }
-        else{
-            $resolved = 'all';
+
+        if($request->type){
+            $type = $request->type;
         }
 
         if ($resolved === 'no'){
-            $reports = Report::where('resolved', false)->paginate(15);
+            $reports = Report::where('resolved', false);
         }
         elseif ($resolved === 'yes'){
-            $reports = Report::where('resolved', true)->paginate(15);
+            $reports = Report::where('resolved', true);
         }
         else{
-            $reports = Report::paginate(15);
+            $reports = Report::with('complaint');
         }
 
-        return view('admin.report.index', ['reports' => $reports, 'resolved' => $resolved]);
+        if($type != 'all'){
+            $reports = $reports->where('complaintable_type', $type);
+        }
+
+        $reports = $reports->paginate(15);
+        return view('admin.report.index', ['reports' => $reports, 'resolved' => $resolved, 'type' => $type]);
     }
 
     /**

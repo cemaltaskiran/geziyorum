@@ -10,8 +10,8 @@
     </div>
 @endif
 <div class="row">
-    <div class="col-md-2">
-        <form action="" method="get">
+    <form action="" method="get">
+        <div class="col-md-2">
             <div class="form-group">
                 <label>Show</label>
                 <select class="form-control" name="resolved" id="resolved" onchange="this.form.submit()">
@@ -20,8 +20,20 @@
                     <option @if($resolved == 'yes') selected @endif value="yes">Resolved</option>
                 </select>
             </div>
-        </form>
-    </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>Type</label>
+                <select class="form-control" name="type" id="type" onchange="this.form.submit()">
+                    <option @if($type == 'all') selected @endif value="all">All</option>
+                    <option @if($type == 'trip') selected @endif value="trip">Trip</option>
+                    <option @if($type == 'user') selected @endif value="user">User</option>
+                    <option @if($type == 'media') selected @endif value="media">Media</option>
+                    <option @if($type == 'comment') selected @endif value="comment">Comment</option>
+                </select>
+            </div>
+        </div>
+    </form>
 </div>
 <div class="row">
     <div class="col-lg-12">

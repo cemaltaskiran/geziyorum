@@ -10,8 +10,8 @@
     </div>
 @endif
 <div class="row">
-    <div class="col-md-2">
-        <form action="" method="get">
+    <form action="" method="get">
+        <div class="col-md-2">    
             <div class="form-group">
                 <label>Show</label>
                 <select class="form-control" name="show" id="show" onchange="this.form.submit()">
@@ -20,8 +20,24 @@
                     <option @if($show == 'deleted') selected @endif value="deleted">Only Deleted</option>
                 </select>
             </div>
-        </form>
-    </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Username</label>
+                <div class="input-group">
+                    <input type="search" class="form-control" name="keyword" id="keyword" value="{{$keyword}}">
+                    <span class="input-group-btn">
+                        <button class="btn" type="button" onclick="$('#keyword').val('');">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                        <button class="btn btn-info" type="submit">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 <div class="row">
     <div class="col-lg-12">
