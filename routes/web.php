@@ -65,6 +65,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
         Route::get('media-type/{name}', 'MediaTypeController@showAdmin')->name('admin.mediaType.show');
         Route::get('complaint/{id}', 'ComplaintController@showAdmin')->name('admin.complaint.show');
         Route::get('report/{id}', 'ReportController@show')->name('admin.report.show');
+        Route::get('ban/{id}', 'BanController@show')->name('admin.ban.show');
     });
 
     Route::prefix('update')->group(function () {
@@ -95,6 +96,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
         Route::get('user/{name}', 'UserController@destroy')->name('admin.user.destroy');
         Route::get('media-type/{name}', 'MediaTypeController@destroy')->name('admin.mediaType.destroy');
         Route::get('complaint/{id}', 'ComplaintController@destroy')->name('admin.complaint.destroy');
+        Route::post('ban/{id}', 'BanController@destroy')->name('admin.ban.destroy');
     });
 
     Route::prefix('restore')->group(function () {

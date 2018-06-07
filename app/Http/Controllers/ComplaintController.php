@@ -101,8 +101,7 @@ class ComplaintController extends Controller
         $complaint = Complaint::where('id', $id)->first();
 
         $validator = Validator::make($request->all(), [
-            'name' => ['required','string', 'max:255', 
-            Rule::unique('complaints')->ignore($complaint->id)],
+            'name' => ['required','string', 'max:255', Rule::unique('complaints')->ignore($complaint->id)],
             'description' => 'nullable|max:255',
             'type' => 'required|string|max:255',
         ]);

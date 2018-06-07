@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Passport\HasApiTokens;
 use DB;
 use App\Ban;
 
@@ -12,6 +13,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
+    use HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -56,11 +58,6 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany('App\Like');
-    }
-
-    public function bans()
-    {
-        return $this->hasMany('App\Ban', 'banable_id');
     }
 
     /**
@@ -116,6 +113,16 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+    public function bans(){
+        $ban = Ban::where([
+            ['banable_id', '=', $this->id],
+            ['banable_type', '=', 'user'],
+            ['timeout', '>', date('Y-m-d H:i:s')]
+        ])->orderBy('timeout', 'desc')->get();
+            
+        return $ban;
     }
 
     public function getBan(){

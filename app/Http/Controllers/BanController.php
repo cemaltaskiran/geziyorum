@@ -105,6 +105,10 @@ class BanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ban = Ban::find($id);
+        if($ban){
+            $ban->delete();
+            return redirect()->back();
+        }
     }
 }

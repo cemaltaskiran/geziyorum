@@ -50,7 +50,8 @@
                             <th>e-mail</th>
                             <th>birthdate</th>
                             <th>Created at</th>
-                            <th>Updated at</th>
+                            <th>Roles</th>
+                            <th>Punish</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,7 +62,24 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->birthdate }}</td>
                                     <td class="center">{{ $user->created_at }}</td>
-                                    <td class="center">{{ $user->updated_at }}</td>
+                                    <td class="center">
+                                        @php
+                                            $roles = array();
+                                        @endphp
+                                        @foreach ($user->roles as $role)
+                                            @php
+                                                $roles[] = $role->name;
+                                            @endphp
+                                        @endforeach
+                                        {{implode(", ", $roles)}}
+                                    </td>
+                                    <td class="center">
+                                        @if ($user->hasBan())
+                                            <span class="badge badge-danger">Punished</span>
+                                        @else
+                                            <span class="badge badge-success">OK</span>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach 
                         @else

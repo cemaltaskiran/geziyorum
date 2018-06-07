@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -120,34 +121,12 @@ class UserController extends Controller
     {
         $user = User::where('username', $username)->first();
         if(isset($user)){
-            if($request->email === $user->email && $request->username === $user->username){
-                $validator = Validator::make($request->all(), [
-                    'username' => 'required|string|max:255',
-                    'email' => 'required|string|email|max:255',
-                    'birthdate' => 'date|required|string|min:10|max:10',
-                ]);
-            }
-            elseif($request->username === $user->username){
-                $validator = Validator::make($request->all(), [
-                    'username' => 'required|string|max:255',
-                    'email' => 'required|string|email|max:255|unique:users',
-                    'birthdate' => 'date|required|string|min:10|max:10',
-                ]);
-            }
-            elseif($request->email === $user->email){
-                $validator = Validator::make($request->all(), [
-                    'username' => 'required|string|max:255|unique:users',
-                    'email' => 'required|string|email|max:255',
-                    'birthdate' => 'date|required|string|min:10|max:10',
-                ]);
-            }
-            else{
-                $validator = Validator::make($request->all(), [
-                    'username' => 'required|string|max:255|unique:users',
-                    'email' => 'required|string|email|max:255|unique:users',
-                    'birthdate' => 'date|required|string|min:10|max:10',
-                ]);
-            }
+
+            $validator = Validator::make($request->all(), [
+                'username' => ['required','string', 'max:255', Rule::unique('users')->ignore($user->id)],
+                'email' => ['required','string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+                'birthdate' => 'date|required|string|min:10|max:10',
+            ]);
             
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
@@ -221,7 +200,7 @@ class UserController extends Controller
             ]);
         }
         else{
-            $users = DB::table('users');
+            $users = User::with('roles');
         }
 
         if($keyword){
