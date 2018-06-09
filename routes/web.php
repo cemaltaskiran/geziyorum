@@ -73,6 +73,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
         Route::post('user/{username}', 'UserController@update')->name('admin.user.update');
         Route::post('media-type/{name}', 'MediaTypeController@update')->name('admin.mediaType.update');
         Route::post('complaint/{id}', 'ComplaintController@update')->name('admin.complaint.update');
+        Route::post('ban/{id}', 'BanController@update')->name('admin.ban.update');
     });
 
     Route::prefix('freeze')->group(function () {

@@ -160,7 +160,7 @@
                                     <td class="center">{{ $ban->created_at }}</td>
                                     <td class="center">{{ $ban->timeout }}</td>
                                     <td>
-                                    <form action="{{ route('admin.ban.destroy', ['id' => $ban->id]) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this punishment?');">
+                                        <form action="{{ route('admin.ban.destroy', ['id' => $ban->id]) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this punishment?');">
                                             @csrf
                                             <button type="submit" class="btn btn-link btn-xs">
                                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>

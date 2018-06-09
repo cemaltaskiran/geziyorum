@@ -16,6 +16,7 @@ class CreateBansTable extends Migration
         Schema::create('bans', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('complaint_id');
+            $table->unsignedInteger('report_id');
             $table->string('banable_type');
             $table->unsignedInteger('banable_id');
             $table->string('message');
@@ -23,6 +24,7 @@ class CreateBansTable extends Migration
             $table->timestamps();
 
             $table->foreign('complaint_id')->references('id')->on('complaints');
+            $table->foreign('report_id')->references('id')->on('reports');
         });
     }
 

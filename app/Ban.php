@@ -10,4 +10,9 @@ class Ban extends Model
     {
         return $this->belongsTo('App\Complaint');
     }
+
+    public function report()
+    {
+        return $this->belongsTo('App\Report');
+    }
 }

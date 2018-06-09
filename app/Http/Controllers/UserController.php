@@ -136,6 +136,25 @@ class UserController extends Controller
             $user->email = $request->email;
             $user->birthdate = $request->birthdate;
             $user->update();
+
+            if($request->default_role){
+                if(!$user->hasRole('default')){
+                    $user->roles()->attach(Role::where('name', 'default')->first());
+                }
+            }
+            else{
+                $user->roles()->detach(Role::where('name', 'default')->first());
+            }
+
+            if($request->admin_role){
+                if (!$user->hasRole('admin')){
+                    $user->roles()->attach(Role::where('name', 'admin')->first());
+                }
+            }
+            else{
+                $user->roles()->detach(Role::where('name', 'admin')->first());
+            }
+
             return redirect()->route('admin.user.show', ['username' => $user->username])->with('update', $user->username);
         }
         abort(404);

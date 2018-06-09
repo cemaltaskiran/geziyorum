@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\Ban;
+use App\Trip;
+use App\Report;
 use App\Helper;
+use App\User;
 
 class BanController extends Controller
 {
@@ -39,6 +42,7 @@ class BanController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'complaint_id' => 'required|integer',
+            'report_id' => 'required|integer',
             'banable_type' => 'required|string|max:255',
             'banable_id' => 'required|integer',
             'message' => 'required|string|max:255',
@@ -50,6 +54,7 @@ class BanController extends Controller
         }
 
         $ban = new Ban();
+        $ban->report_id = $request->report_id;
         $ban->complaint_id = $request->complaint_id;
         $ban->banable_type = $request->banable_type;
         $ban->banable_id = $request->banable_id;
@@ -71,7 +76,13 @@ class BanController extends Controller
      */
     public function show($id)
     {
-        //
+        $ban = Ban::find($id);
+        if ($ban){
+            if($ban->report->complaintable_type == 'trip')
+                $reported = Trip::withTrashed()->find($ban->report->complaintable_id);
+
+            return view('admin.ban.show', ['ban' => $ban, 'reported' => $reported]);
+        }
     }
 
     /**
@@ -94,7 +105,21 @@ class BanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'message' => 'required|string|max:255',
+            'timeout' => 'required|date_format:Y-m-d H:i:s|after:now',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $ban = Ban::find($id);
+        $ban->message = $request->message;
+        $ban->timeout = $request->timeout;
+        $ban->update();
+
+        return redirect()->back();
     }
 
     /**
@@ -107,8 +132,9 @@ class BanController extends Controller
     {
         $ban = Ban::find($id);
         if($ban){
+            $user = User::find($ban->banable_id);
             $ban->delete();
-            return redirect()->back();
+            return redirect()->route('admin.user.show', ['username' => $user->username]);
         }
     }
 }

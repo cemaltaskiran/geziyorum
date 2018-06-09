@@ -25,16 +25,7 @@
                     <div class="desktop-nav">
                         <ul>
                             <li>
-                                <a href="#">menu</a>
-                            </li>
-                            <li>
-                                <a href="#">menu</a>
-                            </li>
-                            <li>
-                                <a href="#">menu</a>
-                            </li>
-                            <li>
-                                <a href="#">menu</a>
+                                <a href="#">explore</a>
                             </li>
                         </ul>
                     </div>
