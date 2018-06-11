@@ -44,9 +44,12 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="POST" id="complaintForm" action="{{ route('trip.complaint', ['id' => $trip->id]) }}">
+                    <form method="POST" id="complaintForm" action="{{ route('report.store') }}">
                         <div class="modal-body">
-                            @csrf @foreach ($complaints as $complaint)
+                            @csrf
+                            <input type="hidden" name="complaintable_type" value="trip">
+                            <input type="hidden" name="complaintable_id" value="{{$trip->id}}">
+                            @foreach ($complaints->where('type', 'trip') as $complaint)
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="complaint" id="c_{{ $complaint->id }}" value="{{ $complaint->id }}">
                                 <label class="form-check-label" for="c_{{ $complaint->id }}">{{ $complaint->name }}</label>
@@ -269,7 +272,7 @@
             <div class="tab-pane fade" id="gallery" role="tabpanel">gallery</div>
             <div class="tab-pane fade" id="comments" role="tabpanel">
                 <div class="comments">
-                    @if (Auth::check())
+                    @auth
                         @if ($errors->has('comment'))
                             <div>
                                 <span style="width: 100%;margin-top: .25rem;font-size: 80%;color: #dc3545;">
@@ -292,7 +295,7 @@
                                 </form>
                             </div>
                         </div>
-                    @endif
+                    @endauth
                     
                     @foreach ($trip->comments as $comment)
                         <div class="comment-wrap">
@@ -300,11 +303,12 @@
                                 <div class="avatar" style="background-image: url('{{$comment->user->getPhoto()}}')"></div>
                             </div>
                             <div class="comment-block">
+                                <a href="{{route('user.show', ['username' => $comment->user->username])}}">{{$comment->user->username}}</a>
                                 <p class="comment-text">{{$comment->comment}}</p>
                                 <div class="bottom-comment">
                                     <div class="comment-date">{{$comment->created_at}}</div>
                                     <ul class="comment-actions">
-                                        <li class="complain">Report</li>
+                                        <li class="complain" @if (!Auth::user()->isUserComplained($comment->id, 'comment')) onclick="commentReport({{$comment->id}});" @endif>Report</li>
                                     </ul>
                                 </div>
                             </div>
@@ -312,6 +316,37 @@
                     @endforeach
                 </div>
             </div>
+            @auth
+                <div class="modal fade" id="reportCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Report Comment</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form method="POST" id="complaintFormComment" action="{{ route('report.store') }}">
+                                <div class="modal-body">
+                                    @csrf
+                                    <input type="hidden" name="complaintable_type" value="comment">
+                                    <input type="hidden" name="complaintable_id" id="complaintable_id" value="">
+                                    @foreach ($complaints->where('type', 'comment') as $complaint)
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="complaint" id="c_{{ $complaint->id }}" value="{{ $complaint->id }}">
+                                            <label class="form-check-label" for="c_{{ $complaint->id }}">{{ $complaint->name }}</label>
+                                        </div>
+                                        <div class="complaint-description">{{ $complaint->description }}</div>
+                                    @endforeach
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="event.preventDefault();document.getElementById('complaintFormComment').submit();">Send complaint</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endauth
         </div>
     </div>
 </div>
@@ -324,6 +359,11 @@
             var length = 255-length;
             $('#chars').text(length);
         });
+
+        function commentReport(cid){
+            $('#complaintable_id').val(""+cid);
+            $('#reportCommentModal').modal('show');
+        }
     </script>
     
 @endsection

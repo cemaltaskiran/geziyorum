@@ -13,13 +13,14 @@
 /*
     TODO;
 Trip edit
+trip api
 Konum api
 media api
 User sayfası
 explore için arama
 user şikayet
 media şikayet
-yorum şikayet
+yorum şikayet+
 galeri
 map
 */
@@ -102,10 +103,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
     Route::prefix('hide')->group(function () {
         Route::post('trip/{id}', 'TripController@hide')->name('admin.trip.hide');
+        Route::post('comment/{id}', 'CommentController@hide')->name('admin.comment.hide');
     });
 
     Route::prefix('unhide')->group(function () {
         Route::post('trip/{id}', 'TripController@unhide')->name('admin.trip.unhide');
+        Route::post('comment/{id}', 'CommentController@unhide')->name('admin.comment.unhide');
     });
 
     Route::prefix('delete')->group(function () {
@@ -129,6 +132,4 @@ Route::group(['prefix' => 'trip', 'middleware' => 'ban'], function() {
     Route::post('comment', 'TripController@comment')->name('trip.comment');
 });
 
-
-
-
+Route::post('report', 'ReportController@store')->name('report.store')->middleware('auth');

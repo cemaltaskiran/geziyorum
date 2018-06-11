@@ -53,6 +53,16 @@
             @endif
         </div>
     </div>
+    @if ($report->complaintable_type == 'comment')
+        <div class="row report-item">
+            <div class="col-md-3 report-th">
+                Comment content
+            </div>
+            <div class="col-md-9">
+                {{$reported->comment}}
+            </div>
+        </div>
+    @endif
     <div class="row report-item">
         <div class="col-md-3 report-th">
             Actions
@@ -254,6 +264,188 @@
                                         <label for="message" class="col-md-3 col-form-label text-md-right">Message</label>
                                         <div class="col-md-9">
                                             <textarea id="message" name="message" class="form-control" rows="2" required>You have been pusnished because of your "{{$reported->name}}" named trip.</textarea>
+                                            @if ($errors->has('message'))
+                                                <span class="invalid-feedback">
+                                                    <strong>{{ $errors->first('message') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row" id="tout">
+                                        <label for="timeout" class="col-md-3 col-form-label text-md-right">Timeout</label>
+                                        <div class="col-md-9">
+                                            <div class="input-group date form_datetime col-md-12" data-date="" data-link-field="timeout">
+                                                <input class="form-control" size="16" type="text" value="" id="toutText">
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                                            </div>
+                                            @if ($errors->has('timeout'))
+                                                <span class="invalid-feedback">
+                                                    <strong>{{ $errors->first('timeout') }}</strong>
+                                                </span>
+                                            @endif
+                                            <input type="hidden" id="timeout" name="timeout" value=""/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="perma" class="col-md-3 col-form-label text-md-right">Permanent ban</label>
+                                        <div class="col-md-9">
+                                            <input type="checkbox" name="perma" id="perma">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Punish</button>                                
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @if ($report->complaintable_type == 'comment')
+                @if (!$reported->trashed())
+                    <a href="#hide" onclick="$('#hideModal').modal('show')" class="badge badge-info">Hide</a>
+                @else
+                    <a href="#unhide" class="badge badge-info" onclick="$('#unhideModal').modal('show')">Restore</a>
+                @endif
+                <a href="#punish" class="badge badge-danger" onclick="$('#punishModal').modal('show')">Punish owner of content</a>
+                @if (!$report->resolved)
+                    <a href="#resolve" class="badge badge-success" onclick="$('#resolveModal').modal('show')">Set as resolved</a>
+                @else
+                    <a href="#unresolve" class="badge badge-dark" onclick="$('#unresolveModal').modal('show')">Set as unresolved</a>
+                @endif
+
+                <!-- Hide Modal -->
+                <div class="modal fade" id="hideModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Hide Comment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure to hide this comment?
+                        </div>
+                        <div class="modal-footer">
+                            <form method="POST" action="{{ route('admin.comment.hide', ['id' => $reported->id]) }}">
+                                @csrf
+                                <input type="hidden" name="report_id" value="{{ $report->id }}">
+                                <button type="submit" class="btn btn-primary">Hide</button>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Unhide Modal -->
+                <div class="modal fade" id="unhideModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Unhide Comment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure to unhide this comment?
+                            </div>
+                            <div class="modal-footer">
+                                <form method="POST" action="{{ route('admin.comment.unhide', ['id' => $reported->id]) }}">
+                                    @csrf
+                                    <input type="hidden" name="report_id" value="{{ $report->id }}">
+                                    <button type="submit" class="btn btn-primary">Unhide</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resolve Modal -->
+                <div class="modal fade" id="resolveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Resolve this report</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure to set as resolved this report?
+                            </div>
+                            <div class="modal-footer">
+                                <form method="POST" action="{{ route('admin.report.resolve', ['id' => $report->id]) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">Set as resolved</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unresolve Modal -->
+                <div class="modal fade" id="unresolveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Unresolve this report</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure to set as unresolved this report?
+                            </div>
+                            <div class="modal-footer">
+                                <form method="POST" action="{{ route('admin.report.unresolve', ['id' => $report->id]) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">Set as unresolved</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Punish Modal -->
+                <div class="modal fade" id="punishModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Punish the user</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <form method="POST" action="{{ route('admin.ban.store') }}" id="punishForm">
+                                @csrf
+                                <input type="hidden" name="complaint_id" value="{{$report->complaint->id}}">
+                                <input type="hidden" name="banable_type" value="user">
+                                <input type="hidden" name="banable_id" value="{{$reported->user_id}}">
+                                <input type="hidden" name="report_id" value="{{$report->id}}">
+                                <div class="modal-body">
+                                    <div class="form-group row ">
+                                        <label class="col-md-3 col-form-label text-md-right">Username</label>
+                                        <div class="col-md-9">
+                                            {{$reported->user->username}}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row ">
+                                        <label class="col-md-3 col-form-label text-md-right">Reason</label>
+                                        <div class="col-md-9">
+                                            {{$report->complaint->name}}
+                                        </div>
+                                    </div>
+                        
+                                    <div class="form-group row">
+                                        <label for="message" class="col-md-3 col-form-label text-md-right">Message</label>
+                                        <div class="col-md-9">
+                                            <textarea id="message" name="message" class="form-control" rows="2" required>You have been pusnished because of your spam comment in "{{$reported->trip->name}}" trip.</textarea>
                                             @if ($errors->has('message'))
                                                 <span class="invalid-feedback">
                                                     <strong>{{ $errors->first('message') }}</strong>

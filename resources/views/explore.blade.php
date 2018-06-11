@@ -25,7 +25,7 @@
                             <div class="likes float-left">
                                 <i class="fas fa-thumbs-up"></i> {{count($trip->likes)}}
                             </div>
-                            <div class="comments">
+                            <div class="">
                                 <i class="fas fa-comment-alt"></i> {{count($trip->comments)}}
                             </div>
                         </div>

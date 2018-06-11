@@ -66,7 +66,7 @@ class TripController extends Controller
             ])->first();
         }
         
-        $complaints = Complaint::where('type', 'trip')->get();
+        $complaints = Complaint::get();
         if($trip){
             return view('trip.show')->with(['trip' => $trip, 'complaints' => $complaints]);
         }

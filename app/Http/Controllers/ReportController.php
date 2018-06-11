@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 use App\Report;
 use App\Trip;
+use App\Comment;
+use App\User;
+use App\Media;
 use App\Helper;
 
 class ReportController extends Controller
@@ -64,7 +68,15 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(!$request->user()->isUserComplained($request->complaintable_id, $request->complaintable_type)){
+            $report = new Report();
+            $report->complaint_id = $request->complaint;
+            $report->complaintable_id = $request->complaintable_id;
+            $report->complaintable_type = $request->complaintable_type;
+            $report->user_id = $request->user()->id;
+            $report->save();
+        }
+        return redirect()->back()->with('report', true);
     }
 
     /**
@@ -76,12 +88,22 @@ class ReportController extends Controller
     public function show($id)
     {
         $report = Report::find($id);
+        
 
         if ($report){
             $reported = null;
             
             if($report->complaintable_type == 'trip')
                 $reported = Trip::withTrashed()->find($report->complaintable_id);
+
+            if($report->complaintable_type == 'comment')
+                $reported = Comment::withTrashed()->find($report->complaintable_id);
+            
+            if($report->complaintable_type == 'user')
+                $reported = User::withTrashed()->find($report->complaintable_id);
+
+            if($report->complaintable_type == 'media')
+                $reported = Media::withTrashed()->find($report->complaintable_id);
 
             return view('admin.report.show', ['report' => $report, 'reported' => $reported]);
         }
