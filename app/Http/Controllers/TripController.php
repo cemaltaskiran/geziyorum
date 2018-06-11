@@ -6,9 +6,12 @@ use App\Trip;
 use App\Complaint;
 use App\ReportHistory;
 use App\Helper;
+use App\Like;
+use App\Comment;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use Validator;
 
 class TripController extends Controller
 {
@@ -187,5 +190,58 @@ class TripController extends Controller
         }
 
         return redirect()->back()->with('unhide', false);
+    }
+
+    public function explore()
+    {
+        $trips = Trip::paginate(15);
+        return view('explore', ['trips' => $trips]);
+    }
+
+    public function like(Request $request){
+        $isLike = Like::where([
+            ['trip_id', '=', $request->trip_id],
+            ['user_id', '=', $request->user_id],
+        ])->first();
+        if(!$isLike){
+            $like = new Like();
+            $like->trip_id = $request->trip_id;
+            $like->user_id = $request->user_id;
+            $like->save();
+        }
+        return redirect()->back();
+    }
+
+    public function unlike(Request $request){
+        $isLike = Like::where([
+            ['trip_id', '=', $request->trip_id],
+            ['user_id', '=', $request->user_id],
+        ])->first();
+        if($isLike){
+            $isLike->delete();
+        }
+        return redirect()->back();
+    }
+
+    public function comment(Request $request){
+        
+        $validator = Validator::make($request->all(), [
+            'comment' => 'required|string|max:255|min:3',
+            'trip_id' => 'required|integer',
+            'user_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $comment = new Comment();
+        $comment->trip_id = $request->trip_id;
+        $comment->user_id = $request->user_id;
+        $comment->comment = $request->comment;
+        $comment->ip = $request->ip();
+        $comment->save();
+    
+        return redirect()->back();
     }
 }

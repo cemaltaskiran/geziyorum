@@ -10,6 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+/*
+    TODO;
+Trip edit
+Konum api
+media api
+User sayfası
+explore için arama
+user şikayet
+media şikayet
+yorum şikayet
+galeri
+map
+*/
 
 Route::get('/', function () {
     return view('homepage');
@@ -17,11 +30,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/panel', 'HomeController@index')->name('panel')->middleware('ban');
-
 Route::get('/punished', 'HomeController@punished')->name('punished');
 
-Route::get('/{username}', 'UserController@show')->name('user.show')->middleware('ban');
+Route::get('/explore', 'TripController@explore')->name('explore')->middleware('ban');
+
+Route::group(['middleware' => ['ban']], function() {
+    Route::get('/panel', 'HomeController@index')->name('panel');
+    Route::get('/{username}', 'UserController@show')->name('user.show');
+});
 
 Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'ban']], function() {
     // Main pages
@@ -108,6 +124,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 Route::group(['prefix' => 'trip', 'middleware' => 'ban'], function() {
     Route::get('{url}', 'TripController@show')->name('trip.show');
     Route::post('complaint/{id}', 'TripController@complaint')->name('trip.complaint');
+    Route::post('like', 'TripController@like')->name('trip.like');
+    Route::post('unlike', 'TripController@unlike')->name('trip.unlike');
+    Route::post('comment', 'TripController@comment')->name('trip.comment');
 });
 
 
