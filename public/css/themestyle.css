@@ -644,6 +644,20 @@ header .btn-link:focus {
     margin-bottom: 30px;
 }
 
+.trip-card .fa-sync-alt{
+    width: 100%;
+    height: 180px;
+    background-color: #ccc;
+    margin-bottom: 10px;
+    font-size: 36px;
+    text-align: center;
+    padding-top: 70px;
+}
+
+.trip-card .fas{
+    line-height: 1.5;
+}
+
 .trip-card img {
     object-fit: cover;
     width: 100%;

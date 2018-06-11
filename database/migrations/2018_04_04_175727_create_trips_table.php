@@ -16,7 +16,7 @@ class CreateTripsTable extends Migration
         Schema::create('trips', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('url')->unique()->nullable();
+            $table->string('url')->nullable();
             $table->unsignedInteger('user_id');
             $table->text('about')->nullable();
             $table->unsignedInteger('total_distance')->nullable();

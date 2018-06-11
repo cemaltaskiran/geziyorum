@@ -16,7 +16,11 @@
                 <div class="col-md-6">
                     <div class="trip-card">
                         <div class="image">
-                            <a href="{{ route('trip.show', ['url' => $trip->url]) }}"><img src="{{ $trip->cover_image_path }}" alt=""></a>
+                            @if ($trip->cover_image_path)
+                                <a href="{{ route('trip.show', ['url' => $trip->url]) }}"><img src="{{ $trip->cover_image_path }}" alt=""></a>
+                            @else
+                                <i class="fas fa-sync-alt"></i>
+                            @endif
                             <a href="{{ route('panel.showTrip', ['id' => $trip->id]) }}" class="edit-trip-icon"><i class="fas fa-cog"></i></a>
                         </div>
                         <div>

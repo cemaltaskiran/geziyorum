@@ -13,7 +13,7 @@
 /*
     TODO;
 Trip edit
-trip api
+trip api+
 Konum api
 media api
 User sayfası
