@@ -669,13 +669,24 @@ header .btn-link:focus {
     margin-bottom: 10px;
 }
 
+.tc-icon{
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    color: #e6e6e6;
+    position: absolute;
+    right: 15px;
+}
+
+.sync-trip-icon{
+    background: rgba(130, 10, 65, .5);
+    top: 25px;
+}
+
 .edit-trip-icon {
     background: rgba(0, 0, 0, .5);
-    color: #e6e6e6;
-    padding: 1px 5px;
-    position: absolute;
     top: 0;
-    right: 15px;
 }
 
 .edit-trip-icon:hover {
@@ -721,7 +732,7 @@ main .dropleft .dropdown-toggle::before {
 .explore-trip .picture {
     display: inline-block;
     width: 100%;
-    height: 150px;
+    height: 240px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: bottom;

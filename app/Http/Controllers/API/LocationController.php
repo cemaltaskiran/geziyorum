@@ -4,12 +4,12 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
-use App\User; 
-use App\Trip; 
+use App\Location;
+use App\Trip;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
 
-class TripController extends Controller 
+class LocationController extends Controller 
 {
 
     private $successStatus = 200;
@@ -22,9 +22,9 @@ class TripController extends Controller
     public function store(Request $request) 
     { 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:240', 
-            'user_id' => 'required|integer', 
-            'about' => 'nullable|string|max:64000', 
+            'trip_id' => 'required|integer', 
+            'longitude' => 'nullable|string|max:64000', 
+            'latitude' => 'nullable|string|max:64000',
         ]);
 
         if ($validator->fails()) {
@@ -38,6 +38,6 @@ class TripController extends Controller
         $trip->freeze = true;
         $trip->save();
 
-        return response()->json($trip, $this->successStatus);
+        return response()->json(['success' => $trip], $this->successStatus);
     }
 }

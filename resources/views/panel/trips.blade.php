@@ -21,7 +21,10 @@
                             @else
                                 <i class="fas fa-sync-alt"></i>
                             @endif
-                            <a href="{{ route('panel.trip.edit', ['id' => $trip->id]) }}" class="edit-trip-icon"><i class="fas fa-cog"></i></a>
+                            <a href="{{ route('panel.trip.edit', ['id' => $trip->id]) }}" class="tc-icon edit-trip-icon"><i class="fas fa-cog"></i></a>
+                            @if ($trip->freeze)
+                                <div class="tc-icon sync-trip-icon" data-toggle="tooltip" data-placement="left" title="Freezed trip"><i class="fas fa-snowflake"></i></div>
+                            @endif
                         </div>
                         <div>
                             <div class="float-left">
@@ -43,4 +46,12 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 @endsection

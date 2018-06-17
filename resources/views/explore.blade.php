@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 @foreach ($trips as $trip)
-                    <div class="col-md-4 explore-trip">
+                    <div class="col-md-6 explore-trip">
                         <div class="user">
                             <a href="{{ route('user.show', ['username' => $trip->user->username]) }}">
                                 <div class="pp float-left">

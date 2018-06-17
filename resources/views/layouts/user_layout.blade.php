@@ -47,8 +47,8 @@
                     <div class="dropdown">
                         <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->username }}</button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{{ route('panel.trips') }}">Your Trips</a>
                             <a class="dropdown-item" href="{{ route('panel.editAccount') }}">Edit Account</a>
+                            <a class="dropdown-item" href="{{ route('panel.trips') }}">Your Trips</a>
                             @if (Auth::user()->hasRole('admin'))
                                 <a class="dropdown-item" href="{{ route('admin.index') }}">Admin Panel</a>
                             @endif
