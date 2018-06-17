@@ -25,13 +25,17 @@
             </button>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="#share">Share</a>
+                @if ($trip->user_id == Auth::user()->id)
+                    <a class="dropdown-item" href="{{route('panel.trip.edit', ['id' => $trip->id])}}">Edit trip</a>
+                @endif
                 @if ($trip->user_id !== Auth::user()->id)
-                <a class="dropdown-item" href="#download">Download to Phone</a>
-                @if (!Auth::user()->isUserComplained($trip->id, 'trip'))
-                <a class="dropdown-item" href="#report" onclick="$('#reportTripModal').modal('show')">Report</a>
-                @else
-                <a class="dropdown-item disabled bg-warning" href="#report">Reported!</a>
-                @endif @endif
+                    <a class="dropdown-item" href="#download">Download to Phone</a>
+                    @if (!Auth::user()->isUserComplained($trip->id, 'trip'))
+                        <a class="dropdown-item" href="#report" onclick="$('#reportTripModal').modal('show')">Report</a>
+                    @else
+                        <a class="dropdown-item disabled bg-warning" href="#report">Reported!</a>
+                    @endif 
+                @endif
             </div>
         </div>
         @if (!Auth::user()->isUserComplained($trip->id, 'trip'))
@@ -70,25 +74,31 @@
                 <h1 class="trip-title">{{ $trip->name }}</h1>
             </div>
             <div class="col-md-12 trip-social-counter">
-                @if (Auth::check()) @if ($trip->likes->where('user_id', Auth::user()->id)->first())
-                <form action="{{ route('trip.unlike')}}" method="post" id="likeForm">
-                    @csrf
-                    <input type="hidden" name="trip_id" value="{{$trip->id}}">
-                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                </form>
-                <span>
-                    <i class="fas fa-thumbs-up liked" onclick="$('#likeForm').submit();"></i> {{ count($trip->likes) }}
-                </span>
+                @if (Auth::check())
+                    @if ($trip->likes->where('user_id', Auth::user()->id)->first())
+                        <form action="{{ route('trip.unlike')}}" method="post" id="likeForm">
+                            @csrf
+                            <input type="hidden" name="trip_id" value="{{$trip->id}}">
+                            <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                        </form>
+                        <span>
+                            <i class="fas fa-thumbs-up liked" onclick="$('#likeForm').submit();"></i> {{ count($trip->likes) }}
+                        </span>
+                    @else
+                        <form action="{{ route('trip.like')}}" method="post" id="likeForm">
+                            @csrf
+                            <input type="hidden" name="trip_id" value="{{$trip->id}}">
+                            <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                        </form>
+                        <span>
+                            <i class="fas fa-thumbs-up" onclick="$('#likeForm').submit();"></i> {{ count($trip->likes) }}
+                        </span>
+                    @endif
                 @else
-                <form action="{{ route('trip.like')}}" method="post" id="likeForm">
-                    @csrf
-                    <input type="hidden" name="trip_id" value="{{$trip->id}}">
-                    <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                </form>
-                <span>
-                    <i class="fas fa-thumbs-up" onclick="$('#likeForm').submit();"></i> {{ count($trip->likes) }}
-                </span>
-                @endif @endif
+                    <span>
+                        <i class="fas fa-thumbs-up"></i> {{ count($trip->likes) }}
+                    </span>
+                @endif
 
                 <span>
                     <i class="fas fa-comment-alt"></i> {{ count($trip->comments) }}</span>
@@ -308,7 +318,7 @@
                                 <div class="bottom-comment">
                                     <div class="comment-date">{{$comment->created_at}}</div>
                                     <ul class="comment-actions">
-                                        <li class="complain" @if (!Auth::user()->isUserComplained($comment->id, 'comment')) onclick="commentReport({{$comment->id}});" @endif>Report</li>
+                                        <li class="complain" @if (Auth::check() && !Auth::user()->isUserComplained($comment->id, 'comment')) onclick="commentReport({{$comment->id}});" @endif>Report</li>
                                     </ul>
                                 </div>
                             </div>

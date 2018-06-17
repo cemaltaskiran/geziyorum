@@ -86,6 +86,33 @@ class TripController extends Controller
         //
     }
 
+    private function seoURL($string, $wordLimit = 0){
+        $separator = '-';
+        
+        if($wordLimit != 0){
+            $wordArr = explode(' ', $string);
+            $string = implode(' ', array_slice($wordArr, 0, $wordLimit));
+        }
+    
+        $quoteSeparator = preg_quote($separator, '#');
+    
+        $trans = array(
+            '&.+?;'                    => '',
+            '[^\w\d _-]'            => '',
+            '\s+'                    => $separator,
+            '('.$quoteSeparator.')+'=> $separator
+        );
+    
+        $string = strip_tags($string);
+        foreach ($trans as $key => $val){
+            $string = preg_replace('#'.$key.'#iu', $val, $string);
+        }
+    
+        $string = strtolower($string);
+    
+        return trim(trim($string, $separator));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -95,7 +122,31 @@ class TripController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'about' => 'required|string|max:64000|min:256',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $trip = Trip::find($id);
+        if ($trip){
+            $trip->name = $request->name;
+            $trip->about = $request->about;
+            if($request->freeze){
+                $trip->freeze = true;
+            }
+            else{
+                $trip->freeze = false;
+            }
+            $trip->url = $this->seoURL($request->name).'-'.$trip->id;
+            $trip->update();
+
+            return redirect()->back()->with('update', true);
+        }
+        
     }
 
     /**
@@ -194,7 +245,7 @@ class TripController extends Controller
 
     public function explore()
     {
-        $trips = Trip::paginate(15);
+        $trips = Trip::where('freeze', false)->paginate(15);
         return view('explore', ['trips' => $trips]);
     }
 

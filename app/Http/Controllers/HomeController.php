@@ -101,7 +101,9 @@ class HomeController extends Controller
     public function showTrip($id){
         $trip = Trip::find($id);
         $user = Auth::user();
-        return view('panel.editTrip')->with('user', $user);
+        if($trip)
+            return view('panel.editTrip')->with('trip', $trip);
+        abort(404);
     }
 
     public function punished(){

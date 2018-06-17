@@ -20,7 +20,7 @@ public $successStatus = 200;
             $success['id'] = $user->id;
             $success['username'] =  $user->username;
             $success['email'] =  $user->email;
-            return response()->json(['success' => $success], $this-> successStatus); 
+            return response()->json($user, $this-> successStatus); 
         } 
         else{ 
             return response()->json(['error'=>'Unauthorised'], 401); 

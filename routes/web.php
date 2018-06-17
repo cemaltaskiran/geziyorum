@@ -46,7 +46,8 @@ Route::group(['prefix' => 'panel', 'middleware' => ['auth', 'ban']], function() 
     Route::get('edit-account', 'HomeController@showAccount')->name('panel.editAccount');
     Route::post('edit-account', 'HomeController@editAccount')->name('panel.updateAccount');
     Route::get('trips', 'HomeController@trips')->name('panel.trips');
-    Route::get('edit-trip/{id}', 'HomeController@showTrip')->name('panel.showTrip');
+    Route::get('edit-trip/{id}', 'HomeController@showTrip')->name('panel.trip.edit');
+    Route::post('update-trip/{id}', 'TripController@update')->name('panel.trip.update');
 
 });
 

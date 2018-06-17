@@ -21,7 +21,7 @@
                             @else
                                 <i class="fas fa-sync-alt"></i>
                             @endif
-                            <a href="{{ route('panel.showTrip', ['id' => $trip->id]) }}" class="edit-trip-icon"><i class="fas fa-cog"></i></a>
+                            <a href="{{ route('panel.trip.edit', ['id' => $trip->id]) }}" class="edit-trip-icon"><i class="fas fa-cog"></i></a>
                         </div>
                         <div>
                             <div class="float-left">

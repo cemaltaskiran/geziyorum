@@ -880,3 +880,7 @@ textarea:-ms-input-placeholder {
 .comment-actions li:hover {
     color: #0095ff;
 }
+
+.invalid-feedback{
+    display: block;
+}
