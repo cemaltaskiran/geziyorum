@@ -75,7 +75,7 @@ class UserController extends Controller
     {
         $user = User::where('username', $username)->withTrashed()->first();
         if($user){
-            return view('admin.user.show', ['user' => $user]);
+            return view('user', ['user' => $user]);
         }
         else{
             abort(404);

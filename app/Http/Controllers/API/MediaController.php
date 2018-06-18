@@ -35,7 +35,7 @@ class MediaController extends Controller
         $path = md5($request->name).'.'.explode('.', $request->name)[1];
 
         if($request->file){
-            $request->file->storeAs('public/'.$request->user_id.'/'.$request->media_type_id.'/'.$request->trip_id.'/'.$request->location_id.'/', $photoPath);
+            $request->file->storeAs('public/'.$request->user_id.'/'.$request->media_type_id.'/'.$request->trip_id.'/'.$request->location_id.'/', $path);
         }
 
         $media = new Media();
