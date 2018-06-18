@@ -14,10 +14,10 @@
     TODO;
 Trip edit
 trip api+
-Konum api
-media api
-User sayfası
-explore için arama
+Konum api+
+media api+
+User sayfası+
+explore için arama+
 user şikayet
 media şikayet
 yorum şikayet+
@@ -134,3 +134,5 @@ Route::group(['prefix' => 'trip', 'middleware' => 'ban'], function() {
 });
 
 Route::post('report', 'ReportController@store')->name('report.store')->middleware('auth');
+
+Route::post('search', 'HomeController@search')->name('search');

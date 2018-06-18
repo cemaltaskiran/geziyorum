@@ -114,4 +114,23 @@ class HomeController extends Controller
         return redirect()->route('homepage');
         
     }
+
+    public function search(Request $request){
+        if ($request->type == 'trip'){
+            $trips = Trip::where([
+                ['name', 'LIKE', '%' . $request->keyword . '%'],
+            ])->paginate(15);
+
+            return view('search')->with('trips', $trips);
+        }
+        elseif ($request->type == 'user'){
+            $users = User::where([
+                ['username', 'LIKE', '%' . $request->keyword . '%'],
+            ])->paginate(15);
+
+            return view('search')->with('users', $users);
+        }
+
+        abort(404);
+    }
 }

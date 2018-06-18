@@ -138,8 +138,21 @@ a:hover {
     color: #ffffff;
 }
 
-.search-content input[type=text] {
-    width: 80%;
+.home-select {
+    width: 20%;
+    height: 48px;
+    background: rgba(0, 0, 0, .4);
+    border: 0;
+    overflow: hidden;
+    outline: 0;
+    padding: 0 16px;
+    font-size: 16px;
+    color: rgba(255, 255, 255, .9);
+    border-right: 1px solid #000000;
+}
+
+.home-text {
+    width: 60%;
     height: 48px;
     background: rgba(0, 0, 0, .4);
     border: 0;
@@ -150,11 +163,11 @@ a:hover {
     color: rgba(255, 255, 255, .9);
 }
 
-.search-content input[type=text]::placeholder {
+.home-text::placeholder {
     color: rgba(255, 255, 255, .7);
 }
 
-.search-content input[type=submit] {
+.home-submit {
     width: 20%;
     height: 48px;
     background: rgba(255, 255, 255, .7);
@@ -608,6 +621,10 @@ main {
 #login {
     margin: 120px 0 60px 0;
     min-height: calc(100vh - 391px);
+}
+
+.mt-6 {
+    margin-top: 60px;
 }
 
 .mt-12 {

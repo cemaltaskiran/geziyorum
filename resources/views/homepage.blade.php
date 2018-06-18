@@ -8,10 +8,15 @@
                     <h1>Experience The World</h1>
                     <h2>Tell your story to everyone</h2>
                 </div>
-                <div class="col-md-4 offset-md-4">
-                    <form action="index.php" method="post" class="form-inline">
-                        <input type="text" placeholder="Search anything">
-                        <input type="submit" value="Search">
+                <div class="col-md-6 offset-md-3">
+                    <form action="{{route('search')}}" method="post" class="form-inline">
+                        @csrf
+                        <select name="type" id="type" class="home-select">
+                            <option value="trip">Trip</option>
+                            <option value="user">User</option>
+                        </select>
+                        <input type="text" name="keyword" placeholder="Search anything" class="home-text">
+                        <input type="submit" value="Search" class="home-submit">
                     </form>
                 </div>
             </div>
