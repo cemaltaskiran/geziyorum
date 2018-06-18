@@ -31,7 +31,7 @@ class MediaController extends Controller
             return response()->json(['error'=>$validator->errors()], 401);
         }
         
-        $path = md5($file->getClientOriginalName()).'.'.$file->extension();
+        $path = md5($request->file->getClientOriginalName()).'.'.$request->file->extension();
 
         if($request->file){
             $request->file->storeAs('public/'.$request->user_id.'/'.$request->media_type_id.'/'.$request->trip_id.'/'.$request->location_id.'/', $path);
