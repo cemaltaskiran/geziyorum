@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('login', 'API\UserController@login');
 Route::post('trip/store', 'API\TripController@store');
+Route::post('location/store', 'API\LocationController@store');
+Route::post('media/store', 'API\MediaController@store');

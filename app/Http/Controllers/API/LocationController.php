@@ -5,8 +5,6 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request; 
 use App\Http\Controllers\Controller; 
 use App\Location;
-use App\Trip;
-use Illuminate\Support\Facades\Auth; 
 use Validator;
 
 class LocationController extends Controller 
@@ -23,21 +21,20 @@ class LocationController extends Controller
     { 
         $validator = Validator::make($request->all(), [
             'trip_id' => 'required|integer', 
-            'longitude' => 'nullable|string|max:64000', 
-            'latitude' => 'nullable|string|max:64000',
+            'longitude' => 'required', 
+            'latitude' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()], 401);
         }
 
-        $trip = new Trip();
-        $trip->name = $request->name;
-        $trip->user_id = $request->user_id;
-        $trip->about = $request->about;
-        $trip->freeze = true;
-        $trip->save();
+        $location = new Location();
+        $location->trip_id = $request->trip_id;
+        $location->longitude = $request->longitude;
+        $location->latitude = $request->latitude;
+        $location->save();
 
-        return response()->json(['success' => $trip], $this->successStatus);
+        return response()->json($location, $this->successStatus);
     }
 }

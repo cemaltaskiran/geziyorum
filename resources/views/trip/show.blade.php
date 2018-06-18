@@ -82,7 +82,7 @@
                             <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                         </form>
                         <span>
-                            <i class="fas fa-thumbs-up liked" onclick="$('#likeForm').submit();"></i> {{ count($trip->likes) }}
+                            <i class="fas fa-thumbs-up liked" onclick="$('#likeForm').submit();" data-toggle="tooltip" data-placement="top" title="Unlike"></i> {{ count($trip->likes) }}
                         </span>
                     @else
                         <form action="{{ route('trip.like')}}" method="post" id="likeForm">
@@ -91,7 +91,7 @@
                             <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                         </form>
                         <span>
-                            <i class="fas fa-thumbs-up" onclick="$('#likeForm').submit();"></i> {{ count($trip->likes) }}
+                            <i class="fas fa-thumbs-up" onclick="$('#likeForm').submit();" data-toggle="tooltip" data-placement="top" title="Like"></i> {{ count($trip->likes) }}
                         </span>
                     @endif
                 @else
@@ -100,18 +100,14 @@
                     </span>
                 @endif
 
-                <span>
-                    <i class="fas fa-comment-alt"></i> {{ count($trip->comments) }}</span>
+                <span onclick="scrollToComment()"><i class="fas fa-comment-alt"></i> {{ count($trip->comments) }}</span>
             </div>
             <div class="col-md-12 sum-info">
                 <span>
-                    <i class="fas fa-calendar-alt"></i> {{ $trip->total_time }}
+                    <i class="fas fa-calendar-alt"></i> {{ $trip->total_time }} days
                 </span>
                 <span>
-                    <i class="fas fa-road"></i> {{ $trip->total_distance }}
-                </span>
-                <span>
-                    <i class="fas fa-money-bill-alt"></i> $500
+                    <i class="fas fa-road"></i> {{ $trip->total_distance }} km
                 </span>
             </div>
             @if (session('report'))
@@ -148,11 +144,11 @@
         <div class="row">
             <div class="col-md-6 trip-summary">
                 <h3>About Trip</h3>
-                <p class="about">{{ $trip->about }}</p>
+                <p class="about">{{ str_limit($trip->about, 580) }}</p>
             </div>
             <div class="col-md-6 mini-gallery">
                 <h3>Gallery
-                    <a href="#tabs">show all</a>
+                    <a href="#tabs" onclick="scrollToGallery()">show all</a>
                 </h3>
                 <div class="mg-thumbnail">
                     <div class="thumbnail-content">
@@ -224,13 +220,27 @@
                     var map;
 
                     function initMap() {
-                        map = new google.maps.Map(document.getElementById('map'), {
-                            center: {
-                                lat: -34.397,
-                                lng: 150.644
-                            },
-                            zoom: 8
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 3,
+                        center: {lat: 0, lng: -180},
+                        mapTypeId: 'terrain'
                         });
+
+                        var flightPlanCoordinates = [
+                        {lat: 37.772, lng: -122.214},
+                        {lat: 21.291, lng: -157.821},
+                        {lat: -18.142, lng: 178.431},
+                        {lat: -27.467, lng: 153.027}
+                        ];
+                        var flightPath = new google.maps.Polyline({
+                        path: flightPlanCoordinates,
+                        geodesic: true,
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2
+                        });
+
+                        flightPath.setMap(map);
                     }
                 </script>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzPRdqJQTDTft2k1Z7oXsvKX8glW4qkI4&callback=initMap" async
@@ -242,10 +252,10 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs nav-justified" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
+                <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#day-by-day" role="tab">Day by Day</a>
+                <a class="nav-link" data-toggle="tab" href="#day-by-day" role="tab">Notes</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#gallery" role="tab">Gallery</a>
@@ -259,22 +269,8 @@
         <div class="tab-content">
             <div class="tab-pane fade active show" id="overview" role="tabpanel">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         {{ $trip->about }}
-                    </div>
-                    <div class="col-md-6">
-                        masraflar listesi
-                        <ul>
-                            <li>
-                                Yaşama : 200 $
-                            </li>
-                            <li>
-                                Yemek : 200 $
-                            </li>
-                            <li>
-                                Ulaşım : 200 $
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -363,7 +359,20 @@
 @endsection 
 @section('script')
     <script>
-        
+        function scrollToComment() {
+            $('html, body').animate({
+                scrollTop: $("#tabs").offset().top-64
+            }, 500);
+            $('#tabs a[href="#comments"]').tab('show');
+        }
+
+        function scrollToGallery() {
+            $('html, body').animate({
+                scrollTop: $("#tabs").offset().top-64
+            }, 500);
+            $('#tabs a[href="#gallery"]').tab('show');
+        }
+
         $('#comment').keyup(function() {
             var length = $(this).val().length;
             var length = 255-length;
@@ -374,6 +383,10 @@
             $('#complaintable_id').val(""+cid);
             $('#reportCommentModal').modal('show');
         }
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
     
 @endsection
