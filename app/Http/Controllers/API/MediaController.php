@@ -24,7 +24,6 @@ class MediaController extends Controller
             'trip_id' => 'required|integer', 
             'location_id' => 'required|integer', 
             'media_type_id' => 'required|integer', 
-            'name' => 'required|string|max:256', 
             'file' => 'required|file',
         ]);
 
@@ -32,7 +31,7 @@ class MediaController extends Controller
             return response()->json(['error'=>$validator->errors()], 401);
         }
         
-        $path = md5($request->name).'.'.explode('.', $request->name)[1];
+        $path = md5($file->getClientOriginalName()).'.'.$file->extension();
 
         if($request->file){
             $request->file->storeAs('public/'.$request->user_id.'/'.$request->media_type_id.'/'.$request->trip_id.'/'.$request->location_id.'/', $path);
