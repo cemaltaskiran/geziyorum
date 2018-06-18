@@ -18,12 +18,17 @@ class Media extends Model
         return $this->belongsTo('App\Location');
     }
 
+    public function trip()
+    {
+        return $this->belongsTo('App\Trip');
+    }
+
     public function user()
     {
         return $this->belongsTo('App\User');
     }
 
     public function getMedia(){
-        return '/storage/'.$this->mediaType->path.'/'.$this->path;
+        return '/storage/'.$this->user_id.'/'.$this->media_type_id.'/'.$this->trip_id.'/'.$this->location_id.'/'.$this->path;
     }
 }
