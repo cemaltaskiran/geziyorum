@@ -16,7 +16,7 @@ public $successStatus = 200;
     public function login(){ 
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
             $user = Auth::user(); 
-            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            //$success['token'] =  $user->createToken('MyApp')->accessToken;
             $success['id'] = $user->id;
             $success['username'] =  $user->username;
             $success['email'] =  $user->email;
