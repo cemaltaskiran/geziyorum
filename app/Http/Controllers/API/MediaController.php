@@ -42,7 +42,7 @@ class MediaController extends Controller
         $media->trip_id = $request->trip_id;
         $media->location_id = $request->location_id;
         $media->media_type_id = $request->media_type_id;
-        $media->name = $request->$file->getClientOriginalName();
+        $media->name = $request->file->getClientOriginalName();
         $media->path = $path;
         $media->ip = $request->ip();
         $media->save();
