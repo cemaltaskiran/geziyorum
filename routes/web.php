@@ -135,4 +135,4 @@ Route::group(['prefix' => 'trip', 'middleware' => 'ban'], function() {
 
 Route::post('report', 'ReportController@store')->name('report.store')->middleware('auth');
 
-Route::post('search', 'HomeController@search')->name('search');
+Route::post('search', 'TripController@search')->name('search');

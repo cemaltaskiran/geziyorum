@@ -8,6 +8,7 @@ use App\ReportHistory;
 use App\Helper;
 use App\Like;
 use App\Comment;
+use App\User;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
@@ -294,5 +295,24 @@ class TripController extends Controller
         $comment->save();
     
         return redirect()->back();
+    }
+
+    public function search(Request $request){
+        if ($request->type == 'trip'){
+            $trips = Trip::where([
+                ['name', 'LIKE', '%' . $request->keyword . '%'],
+            ])->paginate(15);
+
+            return view('search')->with('trips', $trips);
+        }
+        elseif ($request->type == 'user'){
+            $users = User::where([
+                ['username', 'LIKE', '%' . $request->keyword . '%'],
+            ])->paginate(15);
+
+            return view('search')->with('users', $users);
+        }
+
+        abort(404);
     }
 }
