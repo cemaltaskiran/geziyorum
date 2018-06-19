@@ -59,17 +59,6 @@
                             <a href="{{ route('admin.index') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Category<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{{ route('admin.category.index') }}">List</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('admin.category.create') }}">Create</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
                             <a href="#"><i class="fa fa-user fa-fw"></i> User<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>

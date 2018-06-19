@@ -12,6 +12,8 @@ use App\User;
 use App\Media;
 use App\MediaType;
 use App\Trip;
+use App\Comment;
+use App\Report;
 use Validator;
 use Carbon\Carbon;
 
@@ -39,7 +41,11 @@ class HomeController extends Controller
 
     public function indexAdmin()
     {
-        return view('admin.index');
+        $counts['trip'] = Trip::count();
+        $counts['media'] = Media::count();
+        $counts['comment'] = Comment::count();
+        $counts['report'] = Report::count();
+        return view('admin.index')->with('counts', $counts);
     }
 
     public function showAccount(){

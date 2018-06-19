@@ -23,5 +23,17 @@ class ComplaintsTableSeeder extends Seeder
         $media->description = 'Cover image\'s resolution is bad';
         $media->type = 'trip';
         $media->save();
+
+        $media = new Complaint();
+        $media->name = 'Trip media is illegal.';
+        $media->description = 'At least one of the trip media has illegal content';
+        $media->type = 'trip';
+        $media->save();
+
+        $media = new Complaint();
+        $media->name = 'Spam comment';
+        $media->description = 'This comment is spam.';
+        $media->type = 'comment';
+        $media->save();
     }
 }
